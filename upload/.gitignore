@@ -1,0 +1,4 @@
+# Source photos waiting to be optimized — do not commit raw masters.
+*
+!.gitignore
+!READ-ME.txt

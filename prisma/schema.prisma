@@ -1,0 +1,110 @@
+// Prisma schema for rauco.ru admin panel
+// Switch provider to "postgresql" if migrating off SQLite later.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ──────────────────────────────────────────────────────────────────────
+// Portfolio
+// ──────────────────────────────────────────────────────────────────────
+model Work {
+  id          Int      @id @default(autoincrement())
+  slug        String   @unique
+  title       String
+  category    String
+  description String?
+  /// URL to main image — usually "/uploads/<random>.jpg"
+  mainImage   String
+  /// JSON array of additional image URLs
+  galleryJson String   @default("[]")
+  /// JSON object of {key: value} specs — material, dimensions, etc.
+  specsJson   String   @default("{}")
+  /// Sort order, low number = first
+  order       Int      @default(0)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+  @@index([published, order])
+}
+
+// ──────────────────────────────────────────────────────────────────────
+// Blog
+// ──────────────────────────────────────────────────────────────────────
+model Post {
+  id          Int      @id @default(autoincrement())
+  slug        String   @unique
+  title       String
+  category    String
+  excerpt     String
+  /// Body in Markdown
+  content     String   @default("")
+  coverImage  String?
+  /// e.g. "5 мин"
+  readTime    String   @default("5 мин")
+  /// Publication date — shown to user, also used for ordering
+  date        DateTime @default(now())
+  featured    Boolean  @default(false)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+  @@index([published, date])
+}
+
+// ──────────────────────────────────────────────────────────────────────
+// Partners
+// ──────────────────────────────────────────────────────────────────────
+model Partner {
+  id        Int      @id @default(autoincrement())
+  name      String
+  field     String
+  logo      String?
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([order])
+}
+
+// ──────────────────────────────────────────────────────────────────────
+// Service directions (pos, retail, outdoor, led, decor, textile, interior)
+// ──────────────────────────────────────────────────────────────────────
+model ServiceDirection {
+  id          Int      @id @default(autoincrement())
+  /// URL slug — pos / retail / outdoor / led / decor / textile / interior
+  slug        String   @unique
+  /// e.g. "01"
+  tag         String
+  title       String
+  description String
+  /// Optional cover image for the card on home + /services
+  image       String?
+  /// Short bullet items shown on /services — JSON string array
+  itemsJson   String   @default("[]")
+  order       Int      @default(0)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([order])
+}
+
+// ──────────────────────────────────────────────────────────────────────
+// Settings — key/value store for company info, homepage texts, etc.
+// Keys: company.phone, company.email, company.address, hero.title, etc.
+// Values are JSON-stringified (strings, objects, arrays — anything)
+// ──────────────────────────────────────────────────────────────────────
+model Setting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}

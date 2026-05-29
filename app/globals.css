@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* RAUCO brand colors */
+  --color-graphite:      #111317;
+  --color-surface:       #F4F4F1;
+  --color-surface-dark:  #16191f;
+  --color-snow:          #F7F8FA;
+  --color-muted:         #8A8F98;
+  --color-muted-strong:  #5B606A;
+  --color-accent:        #006BFF;
+  --color-led:           #00D1FF;
+
+  /* Font */
+  --font-sans: var(--font-sora), 'Sora', ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sora), 'Sora', ui-sans-serif, system-ui, sans-serif;
+  }
+}
+
+@keyframes progress-fill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+@keyframes scrollFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Architectural grid — light sections (60px, graphite lines) */
+@utility arch-grid-light {
+  background-image:
+    linear-gradient(rgba(17,19,23,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17,19,23,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Architectural grid — dark sections (60px, LED lines) */
+@utility arch-grid-dark {
+  background-image:
+    linear-gradient(rgba(0,209,255,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,209,255,0.045) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Architectural grid — hero/banner (80px, LED lines, used on always-dark sections) */
+@utility arch-grid-hero {
+  background-image:
+    linear-gradient(rgba(0,209,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,209,255,0.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+/* LED glow utility */
+@utility led-glow {
+  box-shadow: 0 0 16px rgba(0, 209, 255, 0.35);
+}

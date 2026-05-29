@@ -1,0 +1,238 @@
+import type { Metadata } from 'next';
+import { Feedback } from '@/components/Feedback';
+import { Partners } from '@/components/Partners';
+import { AnimateOnScroll } from '@/components/AnimateOnScroll';
+import { ArchitecturalGrid } from '@/components/ArchitecturalGrid';
+import { ServiceHero } from '@/components/ServiceHero';
+
+export const metadata: Metadata = {
+  title: 'О компании',
+  description:
+    'С 2014 года производим металлоконструкции, торговое оборудование и лофт-мебель. Собственный цех 800 м² в Москве, команда из 14 специалистов.',
+};
+
+const stats = [
+  { value: '2014', label: 'год основания' },
+  { value: '10+',  label: 'лет на рынке' },
+  { value: '500+', label: 'выполненных заказов' },
+  { value: '14',   label: 'специалистов в цехе' },
+  { value: '800',  label: 'м² производственный цех' },
+  { value: '6',    label: 'направлений работы' },
+];
+
+const values = [
+  {
+    num: '01',
+    title: 'Честность',
+    description: 'Называем реальные сроки и стоимость до начала работ. Не берём скрытых доплат — всё фиксируем в договоре.',
+  },
+  {
+    num: '02',
+    title: 'Качество',
+    description: 'Контроль на каждом этапе: от раскроя металла до финальной покраски. Гарантия на все изделия.',
+  },
+  {
+    num: '03',
+    title: 'Сроки',
+    description: 'Соблюдаем дедлайны. Если не укладываемся — предупреждаем заранее и согласовываем решение.',
+  },
+  {
+    num: '04',
+    title: 'Результат',
+    description: 'Нам важно, чтобы изделие работало и выглядело именно так, как вы задумали. Принимаем правки до финальной сдачи.',
+  },
+];
+
+const history = [
+  { year: '2014',    text: 'Основали компанию. Начинали вдвоём — сварочные работы на заказ для частных клиентов.' },
+  { year: '2016',    text: 'Запустили направление лофт-мебели. Арендовали первый цех площадью 150 м².' },
+  { year: '2019',    text: 'Открыли направление торгового оборудования. Переехали в цех 800 м², набрали команду из 14 специалистов.' },
+  { year: '2022',    text: 'Вышли на постоянное сотрудничество с торговыми сетями и дизайн-студиями Москвы.' },
+  { year: '2024',    text: 'Запустили лазерную резку и направление наружной рекламы — фасадные вывески, объёмные буквы, крышные установки.' },
+  { year: 'Сейчас', text: 'Шесть полноценных направлений, собственное производство 800 м² и 500+ выполненных проектов.' },
+];
+
+const equipment = [
+  'Сварочные полуавтоматы MIG/MAG',
+  'Аргонодуговая сварка TIG',
+  'Плазменная резка металла',
+  'Гибочный пресс (листогиб)',
+  'Токарный и фрезерный станки',
+  'Покрасочная камера',
+  'Шлифовальное оборудование',
+  'Лазерная гравировка',
+];
+
+export default function AboutPage() {
+  return (
+    <main>
+      <ServiceHero
+        title="О"
+        highlight="компании"
+        subtitle="С 2014 года производим металлоконструкции, лофт-мебель и торговое оборудование. Собственный цех в Москве, никаких посредников."
+        tag="О нас"
+        backgroundImage="/banner.png"
+        breadcrumb={[
+          { label: 'Главная', href: '/' },
+          { label: 'О компании' },
+        ]}
+      />
+
+      {/* Stats */}
+      <section className="bg-graphite">
+        <div className="max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-px bg-white/[0.06]">
+            {stats.map((s) => (
+              <div key={s.label} className="bg-graphite px-6 py-10 text-center">
+                <div className="text-3xl font-bold text-accent mb-1">{s.value}</div>
+                <div className="text-xs text-muted leading-snug">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Story */}
+      <section className="relative py-24 bg-snow dark:bg-graphite">
+        <ArchitecturalGrid />
+        <div className="relative z-10 max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            <div>
+              <AnimateOnScroll>
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="block w-8 h-[2px] bg-led" />
+                  <span className="text-led text-xs font-semibold tracking-[0.2em] uppercase">
+                    История
+                  </span>
+                </div>
+                <h2
+                  className="font-bold text-graphite dark:text-snow mb-6 leading-tight"
+                  style={{ fontSize: 'clamp(2.2rem, 4vw, 4rem)' }}
+                >
+                  Как мы выросли<br />из двух человек
+                </h2>
+              </AnimateOnScroll>
+              <p className="text-muted leading-relaxed mb-8">
+                Начинали в 2014 году как небольшая сварочная мастерская. За 10 лет выросли в полноценное производство с тремя направлениями, собственным цехом и командой из 14 специалистов.
+              </p>
+
+              <div className="space-y-0 border-l-2 border-graphite/20 dark:border-white/[0.08] pl-6">
+                {history.map((h, i) => (
+                  <div key={h.year} className={`relative ${i < history.length - 1 ? 'pb-8' : ''}`}>
+                    <span className="absolute -left-[29px] top-1 w-3.5 h-3.5 bg-accent rounded-full border-2 border-snow dark:border-graphite" />
+                    <div className="text-xs font-bold text-accent uppercase tracking-widest mb-1">
+                      {h.year}
+                    </div>
+                    <p className="text-sm text-muted leading-relaxed">
+                      {h.text}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-4 lg:pt-16">
+              <div className="aspect-[4/3] overflow-hidden bg-graphite/10 dark:bg-white/[0.05]">
+                <img
+                  src="https://picsum.photos/seed/workshop-story/800/600"
+                  alt="Наш цех"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="aspect-[16/6] overflow-hidden bg-graphite/10 dark:bg-white/[0.05]">
+                <img
+                  src="https://picsum.photos/seed/team-work-metal/800/300"
+                  alt="Команда за работой"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Values */}
+      <section className="relative py-24 bg-surface dark:bg-surface-dark">
+        <ArchitecturalGrid />
+        <div className="relative z-10 max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16">
+          <AnimateOnScroll>
+            <div className="flex items-center gap-3 mb-4">
+              <span className="block w-8 h-[2px] bg-led" />
+              <span className="text-led text-xs font-semibold tracking-[0.2em] uppercase">
+                Принципы
+              </span>
+            </div>
+            <h2
+              className="font-bold text-graphite dark:text-snow mb-14"
+              style={{ fontSize: 'clamp(2.2rem, 4vw, 4rem)' }}
+            >
+              Как мы работаем
+            </h2>
+          </AnimateOnScroll>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-graphite/[0.08] dark:bg-white/[0.06]">
+            {values.map((v) => (
+              <div key={v.num} className="bg-surface dark:bg-surface-dark p-8">
+                <div className="text-4xl font-bold text-accent mb-4 leading-none">{v.num}</div>
+                <h3 className="font-bold text-graphite dark:text-snow mb-2 text-lg">{v.title}</h3>
+                <p className="text-sm text-muted leading-relaxed">{v.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Equipment */}
+      <section className="relative py-24 bg-snow dark:bg-graphite">
+        <ArchitecturalGrid />
+        <div className="relative z-10 max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="aspect-[4/3] overflow-hidden bg-graphite/10 dark:bg-white/[0.05]">
+              <img
+                src="https://picsum.photos/seed/metal-equipment-workshop/800/600"
+                alt="Оборудование цеха"
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            <div>
+              <AnimateOnScroll>
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="block w-8 h-[2px] bg-led" />
+                  <span className="text-led text-xs font-semibold tracking-[0.2em] uppercase">
+                    Производство
+                  </span>
+                </div>
+                <h2
+                  className="font-bold text-graphite dark:text-snow mb-5 leading-tight"
+                  style={{ fontSize: 'clamp(2.2rem, 4vw, 4rem)' }}
+                >
+                  Собственный цех<br />800 м²
+                </h2>
+              </AnimateOnScroll>
+              <p className="text-muted leading-relaxed mb-8">
+                Все операции выполняем самостоятельно — от раскроя и гибки до сварки, шлифовки и покраски. Не зависим от субподрядчиков, контролируем качество на каждом этапе.
+              </p>
+
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {equipment.map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-sm text-graphite dark:text-snow">
+                    <span className="flex-shrink-0 w-4 h-4 bg-accent flex items-center justify-center">
+                      <svg className="w-2.5 h-2.5 text-snow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Partners />
+      <Feedback />
+    </main>
+  );
+}
