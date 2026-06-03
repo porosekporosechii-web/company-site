@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArchitecturalGrid } from './ArchitecturalGrid';
 import { MessengerBadge } from './MessengerBadge';
+import { RequestButton } from './RequestButton';
 
 export interface BreadcrumbItem {
   label: string;
@@ -102,12 +103,12 @@ export function ServiceHero({
 
           {/* CTA buttons */}
           <div className="flex flex-wrap gap-2.5">
-            <a
-              href="/contacts"
+            <RequestButton
+              source="service-hero"
               className="px-4 py-2 bg-accent hover:bg-led text-snow font-bold text-xs tracking-wide transition-colors uppercase"
             >
               Получить расчёт
-            </a>
+            </RequestButton>
             <a
               href="/portfolio"
               className="px-4 py-2 border border-white/20 hover:border-led/60 text-snow text-xs font-semibold tracking-wide transition-colors uppercase"

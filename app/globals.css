@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -14,12 +15,12 @@
   --color-led:           #00D1FF;
 
   /* Font */
-  --font-sans: var(--font-sora), 'Sora', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Sora', ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
   body {
-    font-family: var(--font-sora), 'Sora', ui-sans-serif, system-ui, sans-serif;
+    font-family: 'Sora', ui-sans-serif, system-ui, sans-serif;
   }
 }
 

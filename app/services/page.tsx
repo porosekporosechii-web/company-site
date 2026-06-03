@@ -4,6 +4,7 @@ import { Feedback } from '@/components/Feedback';
 import { AnimateOnScroll } from '@/components/AnimateOnScroll';
 import { ArchitecturalGrid } from '@/components/ArchitecturalGrid';
 import { MessengerBadge } from '@/components/MessengerBadge';
+import { RequestButton } from '@/components/RequestButton';
 
 export const metadata: Metadata = {
   title: 'Услуги',
@@ -338,15 +339,15 @@ export default function ServicesPage() {
 
                     {/* CTAs */}
                     <div className="flex flex-wrap gap-4">
-                      <a
-                        href="#feedback"
+                      <RequestButton
+                        source="services-list"
                         className="inline-flex items-center gap-2 px-6 py-3 bg-accent hover:bg-led text-snow text-sm font-semibold transition-colors"
                       >
                         Рассчитать стоимость
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>
-                      </a>
+                      </RequestButton>
                       <Link
                         href={`/services/${s.id}`}
                         className="inline-flex items-center gap-2 px-6 py-3 border border-graphite/20 dark:border-white/15 text-graphite dark:text-snow text-sm font-semibold hover:border-accent hover:text-accent transition-colors"

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { useTheme } from './ThemeProvider';
+import { useModal } from './ModalProvider';
 import { company } from '@/lib/company';
 
 const navLinks = [
@@ -19,6 +20,7 @@ export function Navbar() {
   const { theme, toggle } = useTheme();
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { openModal } = useModal();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-snow dark:bg-graphite border-b border-graphite/[0.08] dark:border-white/[0.07]">
@@ -61,12 +63,13 @@ export function Navbar() {
           >
             {company.phone.display}
           </a>
-          <Link
-            href="/contacts"
+          <button
+            type="button"
+            onClick={() => openModal({ source: 'navbar' })}
             className="px-4 py-2 bg-accent text-snow text-sm font-semibold hover:bg-led transition-colors"
           >
             Заказать
-          </Link>
+          </button>
         </div>
 
         {/* Mobile right */}
@@ -129,13 +132,13 @@ export function Navbar() {
           >
             {company.phone.display}
           </a>
-          <Link
-            href="/contacts"
-            onClick={() => setMenuOpen(false)}
+          <button
+            type="button"
+            onClick={() => { setMenuOpen(false); openModal({ source: 'navbar-mobile' }); }}
             className="mx-4 mt-2 px-4 py-3 bg-accent text-snow text-sm font-semibold text-center hover:bg-led transition-colors"
           >
             Заказать
-          </Link>
+          </button>
         </div>
       )}
     </header>

@@ -99,6 +99,22 @@ model ServiceDirection {
 }
 
 // ──────────────────────────────────────────────────────────────────────
+// Contact form submissions
+// ──────────────────────────────────────────────────────────────────────
+model Submission {
+  id        Int      @id @default(autoincrement())
+  name      String?
+  phone     String
+  email     String?
+  message   String?
+  /// Which button / page triggered the request (e.g. "service-block", "contacts-page")
+  source    String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+// ──────────────────────────────────────────────────────────────────────
 // Settings — key/value store for company info, homepage texts, etc.
 // Keys: company.phone, company.email, company.address, hero.title, etc.
 // Values are JSON-stringified (strings, objects, arrays — anything)

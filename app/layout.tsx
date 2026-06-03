@@ -1,17 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Sora } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { ModalProvider } from '@/components/ModalProvider';
 import { Navbar } from '@/components/Navbar';
+import { RequestButton } from '@/components/RequestButton';
 import { company, serviceDirections } from '@/lib/company';
-
-const sora = Sora({
-  variable: '--font-sora',
-  subsets: ['latin', 'cyrillic'],
-  weight: ['400', '500', '600', '700', '800'],
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: {
@@ -19,21 +13,21 @@ export const metadata: Metadata = {
     template: `%s — ${company.name}`,
   },
   description:
-    'Производство металлоконструкций, торгового оборудования, лофт-мебели, наружной рекламы и светодиодных экранов. Собственный цех 800 м² в Москве. Работаем с 2014 года.',
+    'Оформление мест продаж, торговое оборудование, наружная реклама, светодиодные экраны, декорации и текстильные лайтбоксы. Собственный цех 800 м² в Москве. Работаем с 2014 года.',
   keywords: [
-    'торговое оборудование',
     'оформление мест продаж',
-    'наружная реклама',
+    'торговое оборудование',
+    'наружная реклама Москва',
     'светодиодные экраны',
-    'декорации',
     'текстильные лайтбоксы',
-    'металлоконструкции Москва',
+    'декорации для торговых залов',
+    'производство рекламных конструкций Москва',
   ],
   authors: [{ name: company.name }],
   openGraph: {
     title: `${company.name} — Производство торгового оборудования и оформление мест продаж`,
     description:
-      'Производство металлоконструкций, торгового оборудования, наружной рекламы и LED-экранов. Собственный цех в Москве.',
+      'Оформление мест продаж, наружная реклама, торговое оборудование, LED-экраны и декорации. Собственный цех в Москве.',
     siteName: company.name,
     locale: 'ru_RU',
     type: 'website',
@@ -45,7 +39,7 @@ const jsonLd = {
   '@type': 'LocalBusiness',
   name: company.legalName,
   alternateName: company.name,
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://metalloft.example',
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://rauco.ru',
   telephone: company.phone.display,
   email: company.email.display,
   foundingDate: String(company.founded),
@@ -74,7 +68,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru" className={sora.variable} suppressHydrationWarning>
+    <html lang="ru" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -88,6 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-screen bg-surface dark:bg-graphite text-graphite dark:text-snow transition-colors duration-300">
         <ThemeProvider>
+          <ModalProvider>
           <Navbar />
           <div className="pt-16">{children}</div>
 
@@ -101,7 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <div className="md:col-span-1">
                 <img src="/logo.png" alt="Логотип" className="h-7 w-auto mb-4 invert opacity-80" />
                 <p className="text-muted text-sm leading-relaxed">
-                  Производство металлоконструкций, лофт-мебели и торгового оборудования в Москве
+                  Производство рекламных конструкций, торгового оборудования и оформление мест продаж в Москве
                 </p>
                 <div className="mt-5 flex gap-3">
                   <a href={company.socials.telegram} target="_blank" rel="noopener noreferrer"
@@ -164,13 +159,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   </li>
                   <li className="text-muted">{company.hours.short}</li>
                   <li className="pt-3">
-                    <Link href="/contacts"
-                       className="inline-flex items-center gap-2 px-4 py-2.5 bg-accent hover:bg-led text-snow text-xs font-semibold transition-colors">
+                    <RequestButton
+                      source="footer"
+                      className="inline-flex items-center gap-2 px-4 py-2.5 bg-accent hover:bg-led text-snow text-xs font-semibold transition-colors"
+                    >
                       Написать нам
                       <svg aria-hidden="true" className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                       </svg>
-                    </Link>
+                    </RequestButton>
                   </li>
                 </ul>
               </div>
@@ -188,6 +185,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </div>
             </div>
           </footer>
+          </ModalProvider>
         </ThemeProvider>
       </body>
     </html>

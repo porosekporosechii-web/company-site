@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
 import { ArchitecturalGrid } from './ArchitecturalGrid';
 import { MessengerBadge } from './MessengerBadge';
+import { useModal } from './ModalProvider';
 
 export function Banner() {
-  const [phone, setPhone] = useState('');
+  const { openModal } = useModal();
 
   return (
     <section className="relative overflow-hidden bg-graphite min-h-[88vh]">
@@ -63,27 +63,19 @@ export function Banner() {
           {/* Description + form */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-end max-w-4xl mb-14">
             <p className="text-base text-neutral-300 leading-relaxed">
-              Производим сварные конструкции, лофт-мебель из металла и дерева, стеллажи и витрины для торговли. Работаем с юридическими и физическими лицами.
+              Оформляем торговые пространства, производим наружную рекламу, торговое оборудование, декорации, LED-экраны и текстильные лайтбоксы. Собственный цех 800 м² в Москве.
             </p>
             <div>
-              <div className="flex flex-col sm:flex-row gap-0 mb-2">
-                <input
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="+7 (___) ___-__-__"
-                  className="flex-1 px-4 py-3.5 bg-white/10 border border-white/20 text-white placeholder-white/40 text-sm focus:outline-none focus:border-amber-500 transition-colors backdrop-blur-sm"
-                />
-                <button
-                  type="button"
-                  className="px-6 py-3.5 bg-accent hover:bg-led text-snow font-bold text-sm tracking-wide transition-colors whitespace-nowrap"
-                >
-                  Получить расчёт
-                </button>
-              </div>
-              <p className="text-white/30 text-xs">
-                Нажимая кнопку, вы соглашаетесь с политикой обработки персональных данных
-              </p>
+              <button
+                type="button"
+                onClick={() => openModal()}
+                className="w-full sm:w-auto px-8 py-4 bg-accent hover:bg-led text-snow font-bold text-sm tracking-wide transition-colors flex items-center justify-center gap-2"
+              >
+                Получить расчёт
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </button>
             </div>
           </div>
 

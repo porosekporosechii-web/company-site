@@ -8,14 +8,14 @@ import { ServiceHero } from '@/components/ServiceHero';
 export const metadata: Metadata = {
   title: 'О компании',
   description:
-    'С 2014 года производим металлоконструкции, торговое оборудование и лофт-мебель. Собственный цех 800 м² в Москве, команда из 14 специалистов.',
+    'RAUCO — производственная компания в Москве. С 2014 года оформляем торговые пространства, производим наружную рекламу, торговое оборудование, LED-экраны, декорации и текстильные лайтбоксы.',
 };
 
 const stats = [
   { value: '2014', label: 'год основания' },
   { value: '10+',  label: 'лет на рынке' },
   { value: '500+', label: 'выполненных заказов' },
-  { value: '14',   label: 'специалистов в цехе' },
+  { value: '14',   label: 'специалистов' },
   { value: '800',  label: 'м² производственный цех' },
   { value: '6',    label: 'направлений работы' },
 ];
@@ -29,7 +29,7 @@ const values = [
   {
     num: '02',
     title: 'Качество',
-    description: 'Контроль на каждом этапе: от раскроя металла до финальной покраски. Гарантия на все изделия.',
+    description: 'Контроль на каждом этапе: от проектирования до финального монтажа. Гарантия на все изделия.',
   },
   {
     num: '03',
@@ -44,23 +44,23 @@ const values = [
 ];
 
 const history = [
-  { year: '2014',    text: 'Основали компанию. Начинали вдвоём — сварочные работы на заказ для частных клиентов.' },
-  { year: '2016',    text: 'Запустили направление лофт-мебели. Арендовали первый цех площадью 150 м².' },
-  { year: '2019',    text: 'Открыли направление торгового оборудования. Переехали в цех 800 м², набрали команду из 14 специалистов.' },
-  { year: '2022',    text: 'Вышли на постоянное сотрудничество с торговыми сетями и дизайн-студиями Москвы.' },
-  { year: '2024',    text: 'Запустили лазерную резку и направление наружной рекламы — фасадные вывески, объёмные буквы, крышные установки.' },
-  { year: 'Сейчас', text: 'Шесть полноценных направлений, собственное производство 800 м² и 500+ выполненных проектов.' },
+  { year: '2014', text: 'Основали компанию. Начинали с оформления небольших торговых точек и производства торгового оборудования на заказ.' },
+  { year: '2016', text: 'Расширили команду, арендовали первый цех площадью 150 м². Запустили направление POS-оформления для сетевых клиентов.' },
+  { year: '2019', text: 'Переехали в цех 800 м², набрали команду из 14 специалистов. Открыли направление наружной рекламы — фасадные вывески, объёмные буквы, крышные установки.' },
+  { year: '2022', text: 'Вышли на постоянное сотрудничество с торговыми сетями и дизайн-студиями. Запустили производство светодиодных экранов.' },
+  { year: '2024', text: 'Добавили направления декораций и текстильных лайтбоксов. Сегодня RAUCO — шесть полноценных направлений под одной крышей.' },
+  { year: 'Сейчас', text: 'Шесть направлений, собственное производство 800 м², 500+ выполненных проектов. Один подрядчик — вся задача целиком.' },
 ];
 
-const equipment = [
-  'Сварочные полуавтоматы MIG/MAG',
-  'Аргонодуговая сварка TIG',
-  'Плазменная резка металла',
-  'Гибочный пресс (листогиб)',
-  'Токарный и фрезерный станки',
-  'Покрасочная камера',
-  'Шлифовальное оборудование',
-  'Лазерная гравировка',
+const capabilities = [
+  'Оформление мест продаж (POS)',
+  'Торговое оборудование под заказ',
+  'Наружная реклама и вывески',
+  'Светодиодные экраны и медиафасады',
+  'Декорации для торговых пространств',
+  'Текстильные лайтбоксы SEG',
+  'Лазерная резка и гравировка',
+  'Монтаж и сервисное обслуживание',
 ];
 
 export default function AboutPage() {
@@ -69,7 +69,7 @@ export default function AboutPage() {
       <ServiceHero
         title="О"
         highlight="компании"
-        subtitle="С 2014 года производим металлоконструкции, лофт-мебель и торговое оборудование. Собственный цех в Москве, никаких посредников."
+        subtitle="Производственная компания в Москве. С 2014 года — шесть направлений, один подрядчик, полный цикл от проектирования до монтажа."
         tag="О нас"
         backgroundImage="/banner.png"
         breadcrumb={[
@@ -109,11 +109,11 @@ export default function AboutPage() {
                   className="font-bold text-graphite dark:text-snow mb-6 leading-tight"
                   style={{ fontSize: 'clamp(2.2rem, 4vw, 4rem)' }}
                 >
-                  Как мы выросли<br />из двух человек
+                  Десять лет —<br />шесть направлений
                 </h2>
               </AnimateOnScroll>
               <p className="text-muted leading-relaxed mb-8">
-                Начинали в 2014 году как небольшая сварочная мастерская. За 10 лет выросли в полноценное производство с тремя направлениями, собственным цехом и командой из 14 специалистов.
+                Начинали в 2014 году как небольшое производство торгового оборудования. За десять лет выросли в компанию с шестью направлениями, собственным цехом и командой из 14 специалистов. Сегодня RAUCO — это полный цикл: от концепции до монтажа на объекте.
               </p>
 
               <div className="space-y-0 border-l-2 border-graphite/20 dark:border-white/[0.08] pl-6">
@@ -134,16 +134,16 @@ export default function AboutPage() {
             <div className="space-y-4 lg:pt-16">
               <div className="aspect-[4/3] overflow-hidden bg-graphite/10 dark:bg-white/[0.05]">
                 <img
-                  src="https://picsum.photos/seed/workshop-story/800/600"
-                  alt="Наш цех"
+                  src="/images/about/rauco-interior.webp"
+                  alt="Производственный цех RAUCO"
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="aspect-[16/6] overflow-hidden bg-graphite/10 dark:bg-white/[0.05]">
                 <img
-                  src="https://picsum.photos/seed/team-work-metal/800/300"
-                  alt="Команда за работой"
-                  className="w-full h-full object-cover"
+                  src="/images/about/rauco-interior.webp"
+                  alt="Офис RAUCO"
+                  className="w-full h-full object-cover object-bottom"
                 />
               </div>
             </div>
@@ -182,52 +182,42 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Equipment */}
+      {/* Capabilities */}
       <section className="relative py-24 bg-snow dark:bg-graphite">
         <ArchitecturalGrid />
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="aspect-[4/3] overflow-hidden bg-graphite/10 dark:bg-white/[0.05]">
-              <img
-                src="https://picsum.photos/seed/metal-equipment-workshop/800/600"
-                alt="Оборудование цеха"
-                className="w-full h-full object-cover"
-              />
+          <AnimateOnScroll>
+            <div className="flex items-center gap-3 mb-4">
+              <span className="block w-8 h-[2px] bg-led" />
+              <span className="text-led text-xs font-semibold tracking-[0.2em] uppercase">
+                Возможности
+              </span>
             </div>
-
-            <div>
-              <AnimateOnScroll>
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="block w-8 h-[2px] bg-led" />
-                  <span className="text-led text-xs font-semibold tracking-[0.2em] uppercase">
-                    Производство
-                  </span>
-                </div>
-                <h2
-                  className="font-bold text-graphite dark:text-snow mb-5 leading-tight"
-                  style={{ fontSize: 'clamp(2.2rem, 4vw, 4rem)' }}
-                >
-                  Собственный цех<br />800 м²
-                </h2>
-              </AnimateOnScroll>
-              <p className="text-muted leading-relaxed mb-8">
-                Все операции выполняем самостоятельно — от раскроя и гибки до сварки, шлифовки и покраски. Не зависим от субподрядчиков, контролируем качество на каждом этапе.
+            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
+              <h2
+                className="font-bold text-graphite dark:text-snow leading-tight"
+                style={{ fontSize: 'clamp(2.2rem, 4vw, 4rem)' }}
+              >
+                Собственный цех<br />800 м²
+              </h2>
+              <p className="text-muted leading-relaxed max-w-xl lg:text-right">
+                Все операции выполняем самостоятельно: проектирование, раскрой, сварка, покраска, сборка и монтаж. Не зависим от субподрядчиков — контролируем качество и сроки на каждом этапе.
               </p>
-
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {equipment.map((item) => (
-                  <li key={item} className="flex items-center gap-3 text-sm text-graphite dark:text-snow">
-                    <span className="flex-shrink-0 w-4 h-4 bg-accent flex items-center justify-center">
-                      <svg className="w-2.5 h-2.5 text-snow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
             </div>
-          </div>
+          </AnimateOnScroll>
+
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-graphite/[0.08] dark:bg-white/[0.06]">
+            {capabilities.map((item) => (
+              <li key={item} className="bg-snow dark:bg-graphite px-6 py-5 flex items-center gap-3 text-sm text-graphite dark:text-snow">
+                <span className="flex-shrink-0 w-4 h-4 bg-accent flex items-center justify-center">
+                  <svg className="w-2.5 h-2.5 text-snow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 

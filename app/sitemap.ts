@@ -3,7 +3,7 @@ import { posts } from '@/lib/posts';
 import { serviceDirections } from '@/lib/company';
 
 // TODO: replace with the real domain once it's known.
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://metalloft.example';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://rauco.ru';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

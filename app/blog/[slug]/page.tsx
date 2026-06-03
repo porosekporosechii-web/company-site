@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { ServiceHero } from '@/components/ServiceHero';
 import { Feedback } from '@/components/Feedback';
 import { ArchitecturalGrid } from '@/components/ArchitecturalGrid';
-import { MessengerBadge } from '@/components/MessengerBadge';
+import { RequestButton } from '@/components/RequestButton';
 import { getPostBySlug, getRelatedPosts, posts } from '@/lib/posts';
 import { company } from '@/lib/company';
 
@@ -20,11 +21,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const post = getPostBySlug(slug);
   if (!post) return { title: 'Статья не найдена' };
   return {
-    title: post.title,
-    description: post.excerpt,
+    title: post.metaTitle,
+    description: post.metaDescription,
     openGraph: {
-      title: post.title,
-      description: post.excerpt,
+      title: post.metaTitle,
+      description: post.metaDescription,
       type: 'article',
       publishedTime: post.date,
       authors: [company.name],
@@ -40,85 +41,53 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   const related = getRelatedPosts(slug, 3);
 
-  // Use the excerpt as a fallback intro; placeholder body until real content lands.
-  const paragraphs: string[] = post.body
-    ? post.body.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean)
-    : [
-        post.excerpt,
-        'Полный текст статьи готовится — скоро он появится здесь. А пока расскажем кратко: материалы, технологии и подход, которые мы используем в этом направлении, отрабатывались десятками реализованных проектов с 2014 года.',
-        'Если вы планируете похожий проект — оставьте заявку, и мы расскажем подробнее на конкретном примере: технологию, материалы, сроки и стоимость.',
-      ];
+  const paragraphs = post.body
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean);
 
   return (
     <main>
       {/* ─── HERO ─── */}
-      <section className="relative overflow-hidden bg-graphite">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-[0.55]"
-          style={{ backgroundImage: `url('https://picsum.photos/seed/${post.seed}/1600/900')` }}
-        />
-        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-graphite/95 via-graphite/40 to-graphite/20" />
-        <ArchitecturalGrid variant="hero" />
-
-        <MessengerBadge />
-
-        <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 pt-32 pb-20">
-          <div className="max-w-[1100px] mx-auto">
-            {/* Breadcrumb */}
-            <nav aria-label="Хлебные крошки" className="flex items-center gap-2 text-xs text-muted mb-10">
-              <Link href="/" className="hover:text-led transition-colors">Главная</Link>
-              <span aria-hidden="true" className="opacity-40">/</span>
-              <Link href="/blog" className="hover:text-led transition-colors">Блог</Link>
-              <span aria-hidden="true" className="opacity-40">/</span>
-              <span className="text-snow/70 line-clamp-1">{post.title}</span>
-            </nav>
-
-            {/* Category */}
-            <div className="flex items-center gap-3 mb-6">
-              <span className="block w-8 h-[2px] bg-led" />
-              <span className="text-led text-xs font-semibold tracking-[0.25em] uppercase">
-                {post.category}
-              </span>
-              <span aria-hidden="true" className="text-muted/50">·</span>
-              <span className="text-muted text-[11px] tracking-wide uppercase">{post.readTime} чтения</span>
-            </div>
-
-            {/* Title */}
-            <h1
-              className="font-bold text-snow leading-[1.05] tracking-tight mb-8"
-              style={{ fontSize: 'clamp(2rem, 4.5vw, 4.5rem)' }}
-            >
-              {post.title}
-            </h1>
-
-            {/* Meta */}
-            <div className="flex items-center gap-4 text-xs text-muted tabular-nums">
-              <span>{post.date}</span>
-              <span aria-hidden="true" className="opacity-40">·</span>
-              <span>{company.name}</span>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ServiceHero
+        title=""
+        highlight={post.title}
+        subtitle={post.excerpt}
+        tag={post.category}
+        backgroundImage="/banner.png"
+        breadcrumb={[
+          { label: 'Главная', href: '/' },
+          { label: 'Блог', href: '/blog' },
+          { label: post.title },
+        ]}
+      />
 
       {/* ─── ARTICLE BODY ─── */}
       <section className="relative py-20 bg-snow dark:bg-graphite">
         <ArchitecturalGrid />
 
-        <div className="relative z-10 max-w-[1100px] mx-auto px-6 sm:px-10 lg:px-16">
-          <article className="prose-article max-w-[760px] mx-auto">
+        <div className="relative z-10 max-w-[1200px] mx-auto px-6 sm:px-10 lg:px-16">
+          {/* Article meta */}
+          <div className="flex items-center gap-4 text-xs text-muted tabular-nums mb-12 pb-6 border-b border-graphite/[0.08] dark:border-white/[0.08]">
+            <span>{post.date}</span>
+            <span aria-hidden="true" className="opacity-40">·</span>
+            <span>{post.readTime} чтения</span>
+            <span aria-hidden="true" className="opacity-40">·</span>
+            <span>{company.name}</span>
+          </div>
+
+          <article className="max-w-[820px]">
             {paragraphs.map((para, i) => (
               <p
                 key={i}
-                className="text-base lg:text-lg text-graphite dark:text-snow leading-relaxed mb-6"
+                className="text-base lg:text-lg text-graphite dark:text-snow/90 leading-relaxed mb-7"
               >
                 {para}
               </p>
             ))}
 
             {/* Inline CTA */}
-            <div className="mt-12 p-8 border border-graphite/[0.08] dark:border-white/[0.08] bg-surface/60 dark:bg-surface-dark/60">
+            <div className="mt-14 p-8 border border-graphite/[0.08] dark:border-white/[0.08] bg-surface/60 dark:bg-surface-dark/60">
               <div className="flex items-center gap-3 mb-3">
                 <span className="block w-8 h-[2px] bg-led" />
                 <span className="text-led text-xs font-semibold tracking-[0.2em] uppercase">
@@ -128,25 +97,25 @@ export default async function BlogPostPage({ params }: PageProps) {
               <p className="text-graphite dark:text-snow font-semibold text-lg mb-2">
                 Нужна консультация по проекту?
               </p>
-              <p className="text-sm text-muted-strong dark:text-muted mb-5">
+              <p className="text-sm text-muted mb-5">
                 Расскажем на конкретном примере, рассчитаем стоимость, ответим на вопросы.
               </p>
-              <Link
-                href="/contacts"
+              <RequestButton
+                source="blog-post"
                 className="inline-flex items-center gap-2 px-5 py-3 bg-accent hover:bg-led text-snow text-sm font-semibold transition-colors"
               >
                 Получить расчёт
                 <svg aria-hidden="true" className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
-              </Link>
+              </RequestButton>
             </div>
 
             {/* Back to blog */}
             <div className="mt-12 pt-8 border-t border-graphite/[0.08] dark:border-white/[0.08]">
               <Link
                 href="/blog"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-muted-strong dark:text-muted hover:text-accent transition-colors"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-muted hover:text-accent transition-colors"
               >
                 <svg aria-hidden="true" className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -178,13 +147,34 @@ export default async function BlogPostPage({ params }: PageProps) {
                   href={`/blog/${r.slug}`}
                   className="group flex flex-col bg-snow dark:bg-graphite hover:bg-surface/70 dark:hover:bg-surface-dark/70 transition-colors"
                 >
-                  <div className="relative h-[220px] overflow-hidden bg-graphite/10 dark:bg-white/[0.05]">
-                    <img
-                      src={`https://picsum.photos/seed/${r.seed}/1200/750`}
-                      alt={r.title}
-                      className="block w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                    />
-                    <span className="absolute top-4 left-4 z-10 inline-flex items-center gap-1.5 bg-graphite/85 backdrop-blur-sm text-led text-[10px] font-bold tracking-[0.25em] uppercase px-2.5 py-1.5">
+                  {/* Cover image */}
+                  <div className="relative h-[160px] overflow-hidden bg-graphite flex-shrink-0">
+                    {r.coverImage ? (
+                      <img
+                        src={r.coverImage}
+                        alt={r.title}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                      />
+                    ) : (
+                      <>
+                        <div
+                          aria-hidden="true"
+                          className="absolute inset-0 opacity-[0.07]"
+                          style={{
+                            backgroundImage:
+                              'linear-gradient(90deg, #fff 1px, transparent 1px), linear-gradient(0deg, #fff 1px, transparent 1px)',
+                            backgroundSize: '40px 40px',
+                          }}
+                        />
+                        <div className="absolute inset-0 flex items-center justify-start p-6">
+                          <span className="text-snow/[0.05] font-black uppercase tracking-tight leading-none select-none text-5xl">
+                            {r.category}
+                          </span>
+                        </div>
+                      </>
+                    )}
+                    <div aria-hidden="true" className="absolute inset-0 bg-graphite/0 group-hover:bg-accent/10 transition-colors duration-500" />
+                    <span className="absolute top-4 left-4 z-10 inline-flex items-center gap-1.5 bg-graphite/85 backdrop-blur-sm text-led text-[10px] font-bold tracking-[0.25em] uppercase px-2.5 py-1.5 border border-led/20">
                       {r.category}
                     </span>
                   </div>

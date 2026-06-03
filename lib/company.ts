@@ -1,28 +1,28 @@
 export const company = {
-  name: 'МеталлЛофт',
-  legalName: 'ООО «МеталлЛофт»',
+  name: 'R A U C O',
+  legalName: 'RAUCO',
   phone: {
-    display: '+7 (495) 123-45-67',
-    href: 'tel:+74951234567',
+    display: '+7 (977) 173-85-79',
+    href: 'tel:+79771738579',
   },
   phoneAlt: {
-    display: '+7 (916) 000-11-22',
-    href: 'tel:+79160001122',
+    display: '+7 (977) 173-85-79',
+    href: 'tel:+79771738579',
   },
   email: {
-    display: 'info@metalloft.ru',
-    href: 'mailto:info@metalloft.ru',
+    display: 'info@rauco.ru',
+    href: 'mailto:info@rauco.ru',
   },
   address: {
     city: 'г. Москва',
-    street: 'ул. Промышленная, д. 12, стр. 3',
-    full: 'г. Москва, ул. Промышленная, д. 12, стр. 3',
-    metro: 'Печатники',
+    street: 'ул. 4-я Кабельная, д. 2, стр. 1А',
+    full: 'г. Москва, ул. 4-я Кабельная, д. 2, стр. 1А',
+    metro: 'Авиамоторная',
   },
   hours: {
-    weekdays: 'Пн–Пт: 9:00 – 18:00',
-    saturday: 'Сб: 10:00 – 15:00',
-    short: 'Пн–Пт 9:00 – 18:00',
+    weekdays: 'Пн–Пт: 10:00 – 20:00',
+    saturday: '',
+    short: 'Пн–Пт 10:00 – 20:00',
   },
   requisites: {
     inn: '7701234567',

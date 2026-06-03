@@ -8,16 +8,10 @@ import { AnimateOnScroll } from '@/components/AnimateOnScroll';
 import { ArchitecturalGrid } from '@/components/ArchitecturalGrid';
 import { posts, blogCategories as categories } from '@/lib/posts';
 
-/**
- * Stable 3-col grid layout for blog cards.
- * - Featured post is rendered separately as a big block — grid cards stay uniform.
- * - All cards are 1×1; only the LAST card stretches horizontally to fill trailing
- *   empty cells in its row, so the grid never ends with grey holes.
- */
 function lgLastColSpan(idx: number, total: number): string {
   if (total === 0 || idx !== total - 1) return '';
   const COLS = 3;
-  const cellsBefore = total - 1; // all previous cards are 1-cell
+  const cellsBefore = total - 1;
   const colOfLast = cellsBefore % COLS;
   const trailing = COLS - 1 - colOfLast;
   if (trailing === 2) return 'lg:col-span-3';
@@ -49,7 +43,7 @@ export default function BlogPage() {
       <ServiceHero
         title="Наш"
         highlight="блог"
-        subtitle="Делимся опытом: технологии сварки и металлообработки, советы по уходу за изделиями, тренды в дизайне торговых пространств и обзоры оборудования."
+        subtitle="Делимся опытом: наружная реклама, торговое оборудование, LED-экраны, декорации, текстильные лайтбоксы и решения для коммерческих пространств."
         tag="Статьи и советы"
         backgroundImage="/banner.png"
         breadcrumb={[
@@ -63,7 +57,7 @@ export default function BlogPage() {
         <ArchitecturalGrid />
 
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16">
-          {/* Editorial section header */}
+          {/* Section header */}
           <AnimateOnScroll>
             <div className="flex items-center gap-3 mb-5">
               <span className="block w-8 h-[2px] bg-led" />
@@ -79,12 +73,12 @@ export default function BlogPage() {
                 {activeCategory === 'Все статьи' ? 'Все статьи' : activeCategory}
               </h2>
               <p className="text-muted max-w-sm text-sm leading-relaxed">
-                Технологии, советы, разборы — на основе работы собственного цеха площадью 800 м² и проектов с 2014 года.
+                Практические материалы на основе реализованных проектов для магазинов, офисов, торговых центров и общественных пространств.
               </p>
             </div>
           </AnimateOnScroll>
 
-          {/* Filter panel — premium, matches portfolio */}
+          {/* Filter panel */}
           <div className="mb-12">
             <div className="bg-surface/60 dark:bg-surface-dark/60 border border-graphite/[0.08] dark:border-white/[0.06] p-3 flex gap-2 overflow-x-auto md:flex-wrap">
               {categories.map((cat) => {
@@ -127,19 +121,38 @@ export default function BlogPage() {
                 href={`/blog/${featured.slug}`}
                 className="group relative grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] overflow-hidden border border-graphite/[0.08] dark:border-white/[0.06] hover:border-accent/40 transition-colors bg-snow dark:bg-graphite"
               >
-                {/* Image column */}
-                <div className="relative aspect-[4/3] lg:aspect-auto lg:min-h-[460px] overflow-hidden bg-graphite/10 dark:bg-white/[0.05]">
-                  <img
-                    src={`https://picsum.photos/seed/${featured.seed}/1400/1050`}
-                    alt={featured.title}
-                    className="block w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                  />
-                  {/* Subtle hover wash */}
+                {/* Visual column */}
+                <div className="relative aspect-[4/3] lg:aspect-auto lg:min-h-[460px] overflow-hidden bg-graphite">
+                  {featured.coverImage ? (
+                    <img
+                      src={featured.coverImage}
+                      alt={featured.title}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                    />
+                  ) : (
+                    <>
+                      <div
+                        aria-hidden="true"
+                        className="absolute inset-0 opacity-[0.07]"
+                        style={{
+                          backgroundImage:
+                            'linear-gradient(90deg, #fff 1px, transparent 1px), linear-gradient(0deg, #fff 1px, transparent 1px)',
+                          backgroundSize: '48px 48px',
+                        }}
+                      />
+                      <div className="absolute inset-0 flex items-end justify-start p-8 overflow-hidden">
+                        <span className="text-snow/[0.04] font-black uppercase tracking-tight leading-none select-none text-[7rem] lg:text-[9rem]">
+                          {featured.category}
+                        </span>
+                      </div>
+                    </>
+                  )}
+                  {/* Hover wash */}
                   <div
                     aria-hidden="true"
-                    className="absolute inset-0 bg-graphite/0 group-hover:bg-graphite/15 transition-colors duration-500"
+                    className="absolute inset-0 bg-graphite/0 group-hover:bg-accent/10 transition-colors duration-500"
                   />
-                  {/* Top featured marker */}
+                  {/* Featured marker */}
                   <div className="absolute top-5 left-5 z-10 flex items-center gap-2">
                     <span className="inline-block w-2 h-2 bg-led rounded-full animate-pulse" />
                     <span className="text-snow text-[10px] font-bold tracking-[0.3em] uppercase">
@@ -155,7 +168,6 @@ export default function BlogPage() {
 
                 {/* Text column */}
                 <div className="relative flex flex-col justify-center p-8 sm:p-10 lg:p-12 xl:p-14">
-                  {/* Category + read time */}
                   <div className="flex items-center gap-3 mb-5">
                     <span className="block w-8 h-[2px] bg-led" />
                     <span className="text-led text-[10px] font-semibold tracking-[0.25em] uppercase">
@@ -192,7 +204,7 @@ export default function BlogPage() {
             </AnimateOnScroll>
           )}
 
-          {/* Sub-section title for the rest */}
+          {/* Sub-section title */}
           {grid.length > 0 && (
             <div className="flex items-center gap-3 mb-8">
               <span className="block w-8 h-[2px] bg-led" />
@@ -200,18 +212,13 @@ export default function BlogPage() {
                 {activeCategory === 'Все статьи' ? 'Все материалы' : 'Ещё в категории'}
               </span>
               <span aria-hidden="true" className="block flex-1 h-px bg-graphite/[0.08] dark:bg-white/[0.08]" />
-              <span className="text-xs text-muted tabular-nums">{grid.length} {grid.length === 1 ? 'статья' : 'материалов'}</span>
+              <span className="text-xs text-muted tabular-nums">
+                {grid.length} {grid.length === 1 ? 'статья' : 'материалов'}
+              </span>
             </div>
           )}
 
-          {/*
-            Editorial grid — featured is rendered separately, this grid stays uniform.
-            - sm: 1 col
-            - md: 2 cols (last card stretches on odd count)
-            - lg: 3 cols (last card stretches when its row would otherwise leave 1 or 2 trailing empties)
-            - Fixed image height keeps row heights consistent regardless of how wide a card is.
-            - Spans live on the AnimateOnScroll WRAPPER (which is the grid item), not inside.
-          */}
+          {/* Grid */}
           {grid.length > 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-graphite/[0.08] dark:bg-white/[0.06]">
               {grid.map((post, idx) => {
@@ -227,20 +234,45 @@ export default function BlogPage() {
                       href={`/blog/${post.slug}`}
                       className="group relative flex flex-col flex-1 bg-snow dark:bg-graphite hover:bg-surface/70 dark:hover:bg-surface-dark/70 transition-colors"
                     >
-                      {/* Image — fixed height so wider cards don't blow up row height */}
-                      <div className="relative h-[220px] sm:h-[240px] lg:h-[260px] overflow-hidden bg-graphite/10 dark:bg-white/[0.05] flex-shrink-0">
-                        <img
-                          src={`https://picsum.photos/seed/${post.seed}/1200/750`}
-                          alt={post.title}
-                          className="block w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                        />
+                      {/* Visual block */}
+                      <div className="relative h-[200px] sm:h-[220px] lg:h-[240px] overflow-hidden bg-graphite flex-shrink-0">
+                        {post.coverImage ? (
+                          <img
+                            src={post.coverImage}
+                            alt={post.title}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                          />
+                        ) : (
+                          <>
+                            <div
+                              aria-hidden="true"
+                              className="absolute inset-0 opacity-[0.07]"
+                              style={{
+                                backgroundImage:
+                                  'linear-gradient(90deg, #fff 1px, transparent 1px), linear-gradient(0deg, #fff 1px, transparent 1px)',
+                                backgroundSize: '40px 40px',
+                              }}
+                            />
+                            <div className="absolute inset-0 flex items-end justify-start p-5 overflow-hidden">
+                              <span className="text-snow/[0.04] font-black uppercase tracking-tight leading-none select-none text-4xl sm:text-5xl">
+                                {post.category}
+                              </span>
+                            </div>
+                          </>
+                        )}
                         <div
                           aria-hidden="true"
-                          className="absolute inset-0 bg-graphite/0 group-hover:bg-graphite/20 transition-colors duration-500"
+                          className="absolute inset-0 bg-graphite/0 group-hover:bg-accent/10 transition-colors duration-500"
                         />
-                        <span className="absolute top-4 left-4 z-10 inline-flex items-center gap-1.5 bg-graphite/85 backdrop-blur-sm text-led text-[10px] font-bold tracking-[0.25em] uppercase px-2.5 py-1.5">
+                        {/* Category badge */}
+                        <span className="absolute top-4 left-4 z-10 inline-flex items-center gap-1.5 bg-graphite/85 backdrop-blur-sm text-led text-[10px] font-bold tracking-[0.25em] uppercase px-2.5 py-1.5 border border-led/20">
                           {post.category}
                         </span>
+                        {/* Corner accent */}
+                        <span
+                          aria-hidden="true"
+                          className="absolute bottom-4 right-4 w-4 h-4 border-b border-r border-led/30"
+                        />
                       </div>
 
                       {/* Body */}
@@ -255,7 +287,7 @@ export default function BlogPage() {
                           {post.title}
                         </h3>
 
-                        <p className="text-sm text-muted leading-relaxed mb-5 flex-1 line-clamp-2">
+                        <p className="text-sm text-muted leading-relaxed mb-5 flex-1 line-clamp-3">
                           {post.excerpt}
                         </p>
 
@@ -282,7 +314,7 @@ export default function BlogPage() {
             </div>
           )}
 
-          {/* Topics promo strip — compact */}
+          {/* Topics promo strip */}
           <div className="mt-10">
             <div className="flex items-center gap-3 mb-6">
               <span className="block w-8 h-[2px] bg-led" />
@@ -293,22 +325,22 @@ export default function BlogPage() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-graphite/[0.08] dark:bg-white/[0.06]">
               {[
                 {
-                  title: 'Технологии',
-                  desc: 'Сварка, покрытия, резка металла — объясняем сложное просто',
-                  filter: 'Технологии',
-                  count: posts.filter((p) => p.category === 'Технологии').length,
+                  title: 'Наружная реклама',
+                  desc: 'Вывески, световые короба, объёмные буквы, панель-кронштейны и монтаж',
+                  filter: 'Наружная реклама',
+                  count: posts.filter((p) => p.category === 'Наружная реклама').length,
                 },
                 {
-                  title: 'Дизайн и стиль',
-                  desc: 'Тренды в оформлении торговых пространств и лофт-интерьеров',
-                  filter: 'Дизайн и стиль',
-                  count: posts.filter((p) => p.category === 'Дизайн и стиль').length,
+                  title: 'Торговое оборудование',
+                  desc: 'Стойки, полки, ресепшн-зоны, торговые острова и брендированные конструкции',
+                  filter: 'Торговое оборудование',
+                  count: posts.filter((p) => p.category === 'Торговое оборудование').length,
                 },
                 {
-                  title: 'Советы и оборудование',
-                  desc: 'Как выбрать, заказать и ухаживать за металлическими изделиями',
-                  filter: 'Советы',
-                  count: posts.filter((p) => p.category === 'Советы' || p.category === 'Торговое оборудование').length,
+                  title: 'Светодиодные экраны',
+                  desc: 'LED-экраны для улицы, интерьера, фасадов, мероприятий и торговых зон',
+                  filter: 'Светодиодные экраны',
+                  count: posts.filter((p) => p.category === 'Светодиодные экраны').length,
                 },
               ].map((topic) => (
                 <button

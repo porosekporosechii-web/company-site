@@ -1,113 +1,63 @@
 import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Текстильные лайтбоксы',
-  description:
-    'SEG-лайтбоксы, потолочные и витринные конструкции, печать тканевых полотен. Производство и монтаж под ключ, любые размеры и формы.',
-};
-
 import Link from 'next/link';
 import { Feedback } from '@/components/Feedback';
 import { ServiceHero } from '@/components/ServiceHero';
 import { ServiceBlocks, ServiceBlock } from '@/components/ServiceBlocks';
+import { RequestButton } from '@/components/RequestButton';
+
+export const metadata: Metadata = {
+  title: 'Текстильные лайтбоксы для витрин, салонов и торговых пространств',
+  description:
+    'Производство текстильных лайтбоксов — световых конструкций с тканевым полотном для витрин, магазинов, салонов, шоурумов и ресепшен-зон. Ровное свечение, сменная графика, монтаж под ключ в Москве.',
+};
 
 const blocks: ServiceBlock[] = [
   {
-    id: 'seg',
+    id: 'nastennye',
     num: '01',
-    title: 'SEG-лайтбоксы',
-    description: 'Лайтбоксы с силиконовым кантом (Silicone Edge Graphics) — самый популярный формат. Тканевое полотно натягивается на алюминиевую рамку и подсвечивается изнутри светодиодами.',
+    title: 'Настенные лайтбоксы',
+    description: 'Световые панели на стену с равномерной LED-подсветкой и SEG-полотном. Подходят для торговых залов, салонов, шоурумов и ресепшен-зон.',
     items: [
-      { label: 'Настенные SEG-лайтбоксы', seed: 'seg-lightbox-wall-display' },
-      { label: 'Двусторонние SEG-рамки', seed: 'seg-double-sided-frame' },
-      { label: 'Модульные SEG-системы', seed: 'seg-modular-system-retail' },
-      { label: 'Угловые и арочные конструкции', seed: 'seg-arch-corner-display' },
-      { label: 'Лайтбоксы для торговых стоек', seed: 'seg-lightbox-counter-display' },
-      { label: 'Ультратонкие рамки от 30 мм', seed: 'seg-slim-frame-ultrathin' },
+      { label: 'Настенные лайтбоксы в торговых залах', img: '/images/portfolio/tekstilnye-laytboksy/portfolio-217/portfolio-217.webp', seed: 'textile-wall-retail' },
+      { label: 'Настенные лайтбоксы в шоурумах', img: '/images/portfolio/tekstilnye-laytboksy/portfolio-218/portfolio-218.webp', seed: 'textile-wall-showroom' },
+      { label: 'Полноформатные настенные панели', img: '/images/portfolio/tekstilnye-laytboksy/portfolio-219/portfolio-219.webp', seed: 'textile-wall-fullsize' },
+      { label: 'Брендинговые настенные конструкции', img: '/images/portfolio/tekstilnye-laytboksy/portfolio-221/portfolio-221.webp', seed: 'textile-wall-brand' },
     ],
   },
   {
-    id: 'potolok',
+    id: 'vitrinnye',
     num: '02',
-    title: 'Потолочные лайтбоксы',
-    description: 'Подвесные тканевые лайтбоксы для торговых залов, шоурумов и выставочных пространств. Создают равномерную яркую подсветку и выразительный визуальный акцент.',
+    title: 'Витринные и фасадные',
+    description: 'Лайтбоксы для витрин и входных групп — работают как большой светящийся плакат, видны днём и ночью, выделяют магазин среди соседних точек.',
     items: [
-      { label: 'Подвесные лайтбоксы на тросах', seed: 'ceiling-lightbox-suspended-retail' },
-      { label: 'Светящиеся потолочные панели', seed: 'ceiling-light-panel-display' },
-      { label: 'Бесшовные потолочные лайтбоксы', seed: 'seamless-ceiling-lightbox' },
-      { label: 'Фигурные подвесные конструкции', seed: 'custom-shape-hanging-lightbox' },
-      { label: 'Двусторонние подвесные рамки', seed: 'double-sided-hanging-lightbox' },
-      { label: 'Лайтбоксы для зонирования пространства', seed: 'lightbox-zoning-retail-space' },
+      { label: 'Витринные лайтбоксы', img: '/images/portfolio/tekstilnye-laytboksy/portfolio-222/portfolio-222.webp', seed: 'textile-window-lightbox' },
+      { label: 'Фасадные световые панели', img: '/images/portfolio/tekstilnye-laytboksy/portfolio-223/portfolio-223.webp', seed: 'textile-facade-panel' },
+      { label: 'Оформление входных групп', img: '/images/portfolio/tekstilnye-laytboksy/portfolio-224/portfolio-224.webp', seed: 'textile-entrance-group' },
+      { label: 'Двусторонние витринные конструкции', img: '/images/portfolio/tekstilnye-laytboksy/portfolio-225/portfolio-225.webp', seed: 'textile-double-sided' },
     ],
   },
   {
-    id: 'vitrina',
+    id: 'podvesnye',
     num: '03',
-    title: 'Витринные лайтбоксы',
-    description: 'Тканевые лайтбоксы для оформления витрин и фасадов — привлекают внимание днём и ночью, меняются за минуты при смене коллекции или сезона.',
+    title: 'Подвесные лайтбоксы',
+    description: 'Навигационные и декоративные лайтбоксы на подвесе — для торговых центров, зонирования пространства и выделения отделов.',
     items: [
-      { label: 'Полноразмерные витринные лайтбоксы', seed: 'window-lightbox-full-size' },
-      { label: 'Витринные рамки под замену полотен', seed: 'window-frame-swap-fabric' },
-      { label: 'Лайтбоксы с быстросъёмным полотном', seed: 'snap-frame-lightbox-window' },
-      { label: 'Световые короба для фасадов', seed: 'facade-lightbox-exterior' },
-      { label: 'Брендирование витрин под ключ', seed: 'branded-window-display-retail' },
-      { label: 'Сезонная смена графики', seed: 'seasonal-graphics-change-window' },
+      { label: 'Подвесные в торговых центрах', img: '/images/portfolio/tekstilnye-laytboksy/portfolio-226/portfolio-226.webp', seed: 'textile-hanging-mall' },
+      { label: 'Двусторонние подвесные', img: '/images/portfolio/tekstilnye-laytboksy/portfolio-227/portfolio-227.webp', seed: 'textile-hanging-double' },
+      { label: 'Навигационные лайтбоксы', img: '/images/portfolio/tekstilnye-laytboksy/portfolio-228/portfolio-228.webp', seed: 'textile-navigation' },
+      { label: 'Подвесные для зонирования', img: '/images/portfolio/tekstilnye-laytboksy/portfolio-229/portfolio-229.webp', seed: 'textile-zone' },
     ],
   },
   {
-    id: 'napolnye',
+    id: 'nestandartnye',
     num: '04',
-    title: 'Напольные стойки-лайтбоксы',
-    description: 'Автономные напольные конструкции с подсветкой для торговых залов, выставок и мероприятий. Легко перемещаются и переконфигурируются.',
+    title: 'Нестандартные решения',
+    description: 'Встраиваемые в интерьер, угловые, крупноформатные и лайтбоксы под нишу. Изготавливаем под любой размер и конфигурацию по проекту дизайнера.',
     items: [
-      { label: 'Напольные стойки-лайтбоксы', seed: 'floor-standing-lightbox-display' },
-      { label: 'Х-образные рамки с подсветкой', seed: 'x-frame-lightbox-floor' },
-      { label: 'Тотемные лайтбоксы', seed: 'totem-lightbox-display-tall' },
-      { label: 'Мобильные конструкции на колёсах', seed: 'mobile-lightbox-wheels-retail' },
-      { label: 'Стойки для выставок и ярмарок', seed: 'exhibition-lightbox-stand' },
-      { label: 'Разборные конструкции для транспортировки', seed: 'portable-lightbox-kit' },
-    ],
-  },
-  {
-    id: 'pechat',
-    num: '05',
-    title: 'Печать на ткани',
-    description: 'Собственное производство тканевых полотен: печать методом сублимации на полиэстере. Яркие цвета, чёткое изображение, стойкость к выцветанию.',
-    items: [
-      { label: 'Сублимационная печать на полиэстере', seed: 'dye-sublimation-fabric-print' },
-      { label: 'Формат от А0 до нестандартных размеров', seed: 'large-format-fabric-printing' },
-      { label: 'Силиконовый кант для SEG', seed: 'silicone-edge-fabric-sewing' },
-      { label: 'Полотна под существующие рамки', seed: 'fabric-print-existing-frame' },
-      { label: 'Срочная печать за 1 день', seed: 'rush-fabric-printing-service' },
-      { label: 'Замена полотен с монтажом', seed: 'fabric-replacement-installation' },
-    ],
-  },
-  {
-    id: 'nestandart',
-    num: '06',
-    title: 'Нестандартные формы',
-    description: 'Разрабатываем и производим лайтбоксы любой формы: круглые, треугольные, фигурные, изогнутые. Воплощаем любую концепцию дизайнера.',
-    items: [
-      { label: 'Круглые и овальные лайтбоксы', seed: 'round-circular-lightbox-custom' },
-      { label: 'Фигурные рамки по макету', seed: 'custom-shape-lightbox-design' },
-      { label: 'Изогнутые и гнутые конструкции', seed: 'curved-lightbox-display' },
-      { label: 'Лайтбоксы по эскизу дизайнера', seed: 'designer-sketch-lightbox' },
-      { label: 'Нестандартные габариты под заказ', seed: 'bespoke-lightbox-special-size' },
-      { label: 'Световые объекты для мероприятий', seed: 'event-light-object-custom' },
-    ],
-  },
-  {
-    id: 'montazh',
-    num: '07',
-    title: 'Монтаж и обслуживание',
-    description: 'Профессиональный монтаж лайтбоксов на объекте, подключение к электросети. Гарантийное и послегарантийное обслуживание, замена светодиодных модулей.',
-    items: [
-      { label: 'Монтаж под ключ на объекте', seed: 'lightbox-installation-site' },
-      { label: 'Подключение к электросети', seed: 'electrical-connection-lightbox' },
-      { label: 'Замена вышедших из строя LED', seed: 'led-module-replacement-service' },
-      { label: 'Гарантия 2 года на конструкции', seed: 'warranty-service-lightbox' },
-      { label: 'Выезд сервисного специалиста', seed: 'technician-site-visit-service' },
-      { label: 'Демонтаж и утилизация старых конструкций', seed: 'lightbox-dismount-disposal' },
+      { label: 'Встроенные в интерьер', img: '/images/portfolio/tekstilnye-laytboksy/portfolio-230/portfolio-230.webp', seed: 'textile-interior-built-in' },
+      { label: 'Крупноформатные конструкции', img: '/images/portfolio/tekstilnye-laytboksy/portfolio-231/portfolio-231.webp', seed: 'textile-large-format' },
+      { label: 'Лайтбоксы под нишу', img: '/images/portfolio/tekstilnye-laytboksy/portfolio-232/portfolio-232.webp', seed: 'textile-niche' },
+      { label: 'Угловые и нестандартные', img: '/images/portfolio/tekstilnye-laytboksy/portfolio-233/portfolio-233.webp', seed: 'textile-corner-custom' },
     ],
   },
 ];
@@ -118,8 +68,8 @@ export default function TextilePage() {
       <ServiceHero
         title="Текстильные"
         highlight="лайтбоксы"
-        subtitle="Производство и монтаж тканевых лайтбоксов для торговых залов, витрин, выставочных стендов и интерьеров. Яркий визуал, лёгкая смена графики, любые размеры и формы."
-        tag="06 · Текстильные лайтбоксы"
+        subtitle="Производим под размер для магазинов, бутиков, шоурумов, витрин и ресепшен-зон. Тонкий алюминиевый профиль, ровное свечение, быстрая смена изображения под сезон или акцию."
+        tag="Световые конструкции"
         backgroundImage="/banner-textile.png"
         breadcrumb={[
           { label: 'Главная', href: '/' },
@@ -137,9 +87,9 @@ export default function TextilePage() {
             <p className="text-muted text-sm">Ответим в течение 30 минут, выезд на замер бесплатно</p>
           </div>
           <div className="flex gap-3 flex-wrap">
-            <Link href="/contacts" className="px-8 py-4 bg-accent hover:bg-led text-snow font-bold text-sm tracking-wide transition-colors">
+            <RequestButton className="px-8 py-4 bg-accent hover:bg-led text-snow font-bold text-sm tracking-wide transition-colors">
               Оставить заявку
-            </Link>
+            </RequestButton>
             <Link href="/services" className="px-8 py-4 border border-white/20 hover:border-led/60 text-snow text-sm font-semibold transition-colors">
               Все услуги
             </Link>

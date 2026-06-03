@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useCallback, useState } from 'react';
-import Link from 'next/link';
+import { useModal } from './ModalProvider';
 
 export interface LightboxImage {
   img: string;
@@ -24,6 +24,7 @@ interface LightboxProps {
 }
 
 export function Lightbox({ images, index, onClose, onNext, onPrev }: LightboxProps) {
+  const { openModal } = useModal();
   const current = images[index];
   const projectPhotos = [current.img, ...(current.gallery ?? [])];
   const hasMultiplePhotos = projectPhotos.length > 1;
@@ -267,16 +268,16 @@ export function Lightbox({ images, index, onClose, onNext, onPrev }: LightboxPro
 
           {/* CTA — sits right after the content, not anchored to the bottom */}
           <div className="pt-2">
-            <Link
-              href="/contacts"
-              onClick={onClose}
+            <button
+              type="button"
+              onClick={() => { onClose(); openModal({ service: current.title, source: 'lightbox' }); }}
               className="inline-flex items-center gap-2 px-5 py-3 bg-accent hover:bg-led text-snow text-sm font-semibold transition-colors"
             >
               Заказать похожий проект
               <svg aria-hidden="true" className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
-            </Link>
+            </button>
           </div>
         </div>
       </div>

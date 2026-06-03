@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { AnimateOnScroll } from './AnimateOnScroll';
 import { ArchitecturalGrid } from './ArchitecturalGrid';
+import { useModal } from './ModalProvider';
 
 export interface BlockItem {
   label: string;
@@ -30,6 +31,7 @@ function Block({ block, idx }: { block: ServiceBlock; idx: number }) {
   const transitioningRef = useRef(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const blockRef = useRef<HTMLDivElement>(null);
+  const { openModal } = useModal();
 
   function transition(nextIdx: number) {
     if (transitioningRef.current || nextIdx === activeIdxRef.current) return;
@@ -191,12 +193,13 @@ function Block({ block, idx }: { block: ServiceBlock; idx: number }) {
             </ul>
 
             <div className="flex gap-3">
-              <a
-                href="/contacts"
+              <button
+                type="button"
+                onClick={() => openModal({ service: block.title, source: 'service-block' })}
                 className="flex-1 text-center px-5 py-3.5 bg-accent hover:bg-led text-snow font-bold text-sm transition-colors"
               >
                 Заказать
-              </a>
+              </button>
               <a
                 href="/portfolio"
                 className="flex-1 text-center px-5 py-3.5 border border-graphite/20 dark:border-white/15 hover:border-accent hover:text-accent text-muted font-semibold text-sm transition-colors"

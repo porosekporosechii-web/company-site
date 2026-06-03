@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { Feedback } from '@/components/Feedback';
 import { ServiceHero } from '@/components/ServiceHero';
 import { PosBlocks } from './PosBlocks';
+import { RequestButton } from '@/components/RequestButton';
 
 export default function POSPage() {
   return (
@@ -36,9 +37,9 @@ export default function POSPage() {
             <p className="text-muted text-sm">Ответим в течение 30 минут, выезд на замер бесплатно</p>
           </div>
           <div className="flex gap-3 flex-wrap">
-            <Link href="/contacts" className="px-8 py-4 bg-accent hover:bg-led text-snow font-bold text-sm tracking-wide transition-colors">
+            <RequestButton className="px-8 py-4 bg-accent hover:bg-led text-snow font-bold text-sm tracking-wide transition-colors">
               Оставить заявку
-            </Link>
+            </RequestButton>
             <Link href="/services" className="px-8 py-4 border border-white/20 hover:border-led/60 text-snow text-sm font-semibold transition-colors">
               Все услуги
             </Link>

@@ -24,7 +24,7 @@ export const getSetting = cache(async <T = unknown>(key: string, fallback: T): P
 export const getSettings = cache(async <K extends string>(
   keys: Record<K, [string, unknown]>,
 ): Promise<Record<K, unknown>> => {
-  const lookupKeys = Object.values(keys).map(([k]) => k);
+  const lookupKeys = (Object.values(keys) as [string, unknown][]).map(([k]) => k);
   const rows = await db.setting.findMany({ where: { key: { in: lookupKeys } } });
   const map = new Map(rows.map((r) => [r.key, r.value]));
 
