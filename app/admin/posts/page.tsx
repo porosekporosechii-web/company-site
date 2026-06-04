@@ -2,6 +2,7 @@ import { db } from '@/lib/db';
 import { revalidatePath } from 'next/cache';
 import { formatDate } from '@/lib/format';
 import { AdminShell, AdminTable, AdminRow, AdminCell, BtnLink } from '../_components/AdminShell';
+import { ConfirmDeleteButton } from '../_components/ConfirmDeleteButton';
 
 async function deletePost(fd: FormData) {
   'use server';
@@ -49,16 +50,7 @@ export default async function PostsPage() {
             <AdminCell>
               <div className="flex items-center gap-2">
                 <BtnLink href={`/admin/posts/${p.id}`}>Редактировать</BtnLink>
-                <form action={deletePost}>
-                  <input type="hidden" name="id" value={p.id} />
-                  <button
-                    type="submit"
-                    className="inline-flex items-center px-3 py-1.5 text-xs font-semibold border border-red-400/40 text-red-500 hover:bg-red-500 hover:text-snow transition-colors"
-                    onClick={(e) => { if (!confirm('Удалить статью?')) e.preventDefault(); }}
-                  >
-                    Удалить
-                  </button>
-                </form>
+                <ConfirmDeleteButton action={deletePost} id={p.id} label="Удалить" message="Удалить статью?" />
               </div>
             </AdminCell>
           </AdminRow>

@@ -3,6 +3,7 @@ import { revalidatePath } from 'next/cache';
 import { db } from '@/lib/db';
 import { AdminShell, AdminTable, AdminRow, AdminCell, BtnLink, FormField, inputClass, SaveButton } from '../_components/AdminShell';
 import { ImageUpload } from '../_components/ImageUpload';
+import { ConfirmDeleteButton } from '../_components/ConfirmDeleteButton';
 
 async function createPartner(fd: FormData) {
   'use server';
@@ -53,16 +54,7 @@ export default async function PartnersPage() {
                 <AdminCell>
                   <div className="flex items-center gap-2">
                     <BtnLink href={`/admin/partners/${p.id}`}>Изменить</BtnLink>
-                    <form action={deletePartner}>
-                      <input type="hidden" name="id" value={p.id} />
-                      <button
-                        type="submit"
-                        className="inline-flex items-center px-3 py-1.5 text-xs font-semibold border border-red-400/40 text-red-500 hover:bg-red-500 hover:text-snow transition-colors"
-                        onClick={(e) => { if (!confirm('Удалить?')) e.preventDefault(); }}
-                      >
-                        ✕
-                      </button>
-                    </form>
+                    <ConfirmDeleteButton action={deletePartner} id={p.id} label="✕" />
                   </div>
                 </AdminCell>
               </AdminRow>

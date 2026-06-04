@@ -1,6 +1,7 @@
 import { db } from '@/lib/db';
 import { revalidatePath } from 'next/cache';
-import { AdminShell, AdminTable, AdminRow, AdminCell, BtnLink, DeleteButton } from '../_components/AdminShell';
+import { AdminShell, AdminTable, AdminRow, AdminCell, BtnLink } from '../_components/AdminShell';
+import { ConfirmDeleteButton } from '../_components/ConfirmDeleteButton';
 
 async function deleteWork(fd: FormData) {
   'use server';
@@ -55,16 +56,7 @@ export default async function WorksPage() {
             <AdminCell>
               <div className="flex items-center gap-2">
                 <BtnLink href={`/admin/works/${w.id}`}>Редактировать</BtnLink>
-                <form action={deleteWork}>
-                  <input type="hidden" name="id" value={w.id} />
-                  <button
-                    type="submit"
-                    className="inline-flex items-center px-3 py-1.5 text-xs font-semibold border border-red-400/40 text-red-500 hover:bg-red-500 hover:text-snow transition-colors"
-                    onClick={(e) => { if (!confirm('Удалить работу?')) e.preventDefault(); }}
-                  >
-                    Удалить
-                  </button>
-                </form>
+                <ConfirmDeleteButton action={deleteWork} id={w.id} label="Удалить" message="Удалить работу?" />
               </div>
             </AdminCell>
           </AdminRow>

@@ -87,19 +87,6 @@ export function SaveButton({ pending }: { pending?: boolean }) {
   );
 }
 
-export function DeleteButton({ action, label = 'Удалить' }: { action: (fd: FormData) => Promise<void>; label?: string }) {
-  return (
-    <form action={action}>
-      <button
-        type="submit"
-        className="inline-flex items-center px-3 py-1.5 text-xs font-semibold border border-red-400/40 text-red-500 hover:bg-red-500 hover:text-snow transition-colors"
-        onClick={(e) => { if (!confirm('Удалить?')) e.preventDefault(); }}
-      >
-        {label}
-      </button>
-    </form>
-  );
-}
 
 export function StatusBadge({ status }: { status: string }) {
   const map: Record<string, string> = {
