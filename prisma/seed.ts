@@ -5,6 +5,7 @@
  * Idempotent: uses upsert on slugs/keys so re-running won't duplicate.
  */
 import { PrismaClient } from '@prisma/client';
+import { portfolioWorks } from '../lib/portfolio.generated';
 
 const db = new PrismaClient();
 
@@ -318,7 +319,27 @@ const settings = {
 // Seed runner
 // ────────────────────────────────────────────────────────────────
 async function main() {
-  console.log('Seeding works…');
+  console.log('Seeding works from portfolio.generated…');
+  for (let i = 0; i < portfolioWorks.length; i++) {
+    const w = portfolioWorks[i];
+    await db.work.upsert({
+      where: { slug: w.slug },
+      update: {},
+      create: {
+        slug: w.slug,
+        title: w.title,
+        category: w.category,
+        description: w.description ?? null,
+        mainImage: w.coverImage,
+        galleryJson: JSON.stringify(w.images ?? []),
+        specsJson: JSON.stringify(w.specs ?? {}),
+        order: i * 10,
+        published: true,
+      },
+    });
+  }
+
+  console.log('Seeding placeholder works…');
   for (let i = 0; i < works.length; i++) {
     const w = works[i];
     await db.work.upsert({
@@ -332,8 +353,8 @@ async function main() {
         mainImage: w.mainImage,
         galleryJson: JSON.stringify(w.gallery ?? []),
         specsJson: JSON.stringify(w.specs ?? {}),
-        order: i * 10,
-        published: true,
+        order: (portfolioWorks.length + i) * 10,
+        published: false,
       },
     });
   }

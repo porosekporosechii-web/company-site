@@ -57,12 +57,20 @@ export function Navbar() {
 
         {/* Right: phone + CTA */}
         <div className="hidden lg:flex items-center gap-4">
-          <a
-            href={company.phone.href}
-            className="text-sm font-semibold text-graphite dark:text-snow hover:text-accent transition-colors"
-          >
-            {company.phone.display}
-          </a>
+          <div className="flex flex-col items-end leading-tight">
+            <a
+              href={company.phone.href}
+              className="text-sm font-semibold text-graphite dark:text-snow hover:text-accent transition-colors"
+            >
+              {company.phone.display}
+            </a>
+            <a
+              href={company.email.href}
+              className="text-xs text-muted hover:text-accent transition-colors"
+            >
+              {company.email.display}
+            </a>
+          </div>
           <button
             type="button"
             onClick={() => openModal({ source: 'navbar' })}

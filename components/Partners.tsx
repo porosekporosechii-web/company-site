@@ -1,20 +1,12 @@
+import { db } from '@/lib/db';
 import { AnimateOnScroll } from './AnimateOnScroll';
 import { ArchitecturalGrid } from './ArchitecturalGrid';
 
-const partners = [
-  { name: 'СтройГрупп',     field: 'Строительство' },
-  { name: 'Loft Studio',    field: 'Дизайн интерьеров' },
-  { name: 'МегаТорг',       field: 'Торговые сети' },
-  { name: 'АрхМастер',      field: 'Архитектура' },
-  { name: 'ТехноПром',      field: 'Промышленность' },
-  { name: 'Urban Space',    field: 'Девелопмент' },
-  { name: 'АвтоДилер Групп',field: 'Автосалоны' },
-  { name: 'Форт Ритейл',    field: 'Ритейл' },
-  { name: 'КофеХаус',       field: 'HoReCa' },
-  { name: 'МедТехника',     field: 'Медицина' },
-];
+export async function Partners() {
+  const partners = await db.partner.findMany({ orderBy: { order: 'asc' } });
 
-export function Partners() {
+  if (partners.length === 0) return null;
+
   return (
     <section className="relative py-20 bg-snow dark:bg-graphite border-y border-graphite/[0.08] dark:border-white/[0.06]">
       <ArchitecturalGrid />
@@ -47,14 +39,24 @@ export function Partners() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-graphite/10 dark:bg-white/[0.06]">
           {partners.map((p) => (
             <div
-              key={p.name}
+              key={p.id}
               className="group bg-snow dark:bg-graphite px-6 py-8 flex flex-col items-center justify-center text-center hover:bg-surface dark:hover:bg-surface-dark transition-colors"
             >
-              <div className="w-12 h-12 bg-graphite/[0.07] dark:bg-white/[0.06] group-hover:bg-accent flex items-center justify-center mb-3 transition-colors">
-                <span className="text-sm font-bold text-muted group-hover:text-snow transition-colors leading-none">
-                  {p.name.slice(0, 2).toUpperCase()}
-                </span>
-              </div>
+              {p.logo ? (
+                <div className="w-12 h-12 mb-3 flex items-center justify-center overflow-hidden">
+                  <img
+                    src={p.logo}
+                    alt={p.name}
+                    className="max-w-full max-h-full object-contain"
+                  />
+                </div>
+              ) : (
+                <div className="w-12 h-12 bg-graphite/[0.07] dark:bg-white/[0.06] group-hover:bg-accent flex items-center justify-center mb-3 transition-colors">
+                  <span className="text-sm font-bold text-muted group-hover:text-snow transition-colors leading-none">
+                    {p.name.slice(0, 2).toUpperCase()}
+                  </span>
+                </div>
+              )}
               <div className="text-sm font-semibold text-graphite dark:text-snow leading-tight mb-1">
                 {p.name}
               </div>

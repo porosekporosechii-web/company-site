@@ -3,30 +3,19 @@
 import { useMemo, useState } from 'react';
 import { ArchitecturalGrid } from './ArchitecturalGrid';
 import { Lightbox } from './Lightbox';
-import { portfolioWorks, portfolioCategories } from '@/lib/portfolio.generated';
 import { sortByPriority, toLightboxImage } from '@/lib/portfolio.config';
+import { deriveCategories } from '@/lib/works';
+import type { PortfolioWork } from '@/lib/portfolio.generated';
 
 const INITIAL = 9;
 const STEP = 6;
 const ALL = 'Все работы';
 
-interface CardSpan {
-  c: number; // column span on lg (1..4)
-  r: number; // row span on lg (1..2)
-}
+interface CardSpan { c: number; r: number; }
 
-/**
- * Compute lg-breakpoint spans for the editorial 4-col grid.
- * - Editorial pattern only kicks in when total >= 6 (otherwise plain 1×1).
- *   Pattern: idx 0 → 2×2 hero; every 9th from idx 7 → 2×1 wide; rest → 1×1.
- * - Simulates strict left-to-right placement to find the real cell each card lands on.
- * - Expands the LAST card horizontally to swallow trailing empty cells of its row,
- *   so the grid never ends with grey gaps.
- */
 function computeLgLayout(total: number): CardSpan[] {
   const COLS = 4;
   if (total === 0) return [];
-
   const useEditorial = total >= 6;
   const spans: CardSpan[] = [];
   for (let i = 0; i < total; i++) {
@@ -34,13 +23,9 @@ function computeLgLayout(total: number): CardSpan[] {
     else if (useEditorial && i > 0 && i % 9 === 7) spans.push({ c: 2, r: 1 });
     else spans.push({ c: 1, r: 1 });
   }
-
   const grid: number[][] = [];
-  const ensureRow = (r: number) => {
-    while (grid.length <= r) grid.push(new Array(COLS).fill(-1));
-  };
+  const ensureRow = (r: number) => { while (grid.length <= r) grid.push(new Array(COLS).fill(-1)); };
   const positions: { row: number; col: number }[] = [];
-
   for (let i = 0; i < total; i++) {
     const { c: sc, r: sr } = spans[i];
     let placed = false;
@@ -56,11 +41,9 @@ function computeLgLayout(total: number): CardSpan[] {
           }
         }
         if (ok) {
-          for (let dr = 0; dr < sr; dr++) {
-            for (let dc = 0; dc < sc; dc++) {
+          for (let dr = 0; dr < sr; dr++)
+            for (let dc = 0; dc < sc; dc++)
               grid[row + dr][col + dc] = i;
-            }
-          }
           positions.push({ row, col });
           placed = true;
           break;
@@ -69,7 +52,6 @@ function computeLgLayout(total: number): CardSpan[] {
       if (!placed) row++;
     }
   }
-
   const lastIdx = total - 1;
   const { row, col } = positions[lastIdx];
   const lastSpan = spans[lastIdx];
@@ -78,7 +60,6 @@ function computeLgLayout(total: number): CardSpan[] {
     if (grid[row][c] === -1) trailing++;
   }
   if (trailing > 0) lastSpan.c += trailing;
-
   return spans;
 }
 
@@ -95,16 +76,20 @@ function mdClassFor(idx: number, total: number): string {
   return idx === total - 1 && total % 2 === 1 ? 'md:col-span-2' : '';
 }
 
-export function PortfolioGallery() {
+interface Props {
+  works: PortfolioWork[];
+}
+
+export function PortfolioGallery({ works: allWorks }: Props) {
   const [active, setActive] = useState<string>(ALL);
   const [visible, setVisible] = useState(INITIAL);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
+  const categories = useMemo(() => deriveCategories(allWorks), [allWorks]);
+
   const filtered = useMemo(
-    () => (active === ALL
-      ? sortByPriority(portfolioWorks)
-      : portfolioWorks.filter((w) => w.category === active)),
-    [active],
+    () => (active === ALL ? sortByPriority(allWorks) : allWorks.filter((w) => w.category === active)),
+    [active, allWorks],
   );
   const shown = filtered.slice(0, visible);
   const hasMore = visible < filtered.length;
@@ -126,19 +111,14 @@ export function PortfolioGallery() {
     <>
       <section className="relative py-20 bg-snow dark:bg-graphite">
         <ArchitecturalGrid />
-
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16">
-          {/* Filter panel */}
           <div className="mb-10">
             <div className="flex items-center gap-3 mb-5">
               <span className="block w-8 h-[2px] bg-led" />
-              <span className="text-led text-xs font-semibold tracking-[0.2em] uppercase">
-                Категории
-              </span>
+              <span className="text-led text-xs font-semibold tracking-[0.2em] uppercase">Категории</span>
             </div>
             <div className="bg-surface/60 dark:bg-surface-dark/60 border border-graphite/[0.08] dark:border-white/[0.06] p-3 flex gap-2 overflow-x-auto md:flex-wrap">
-              {/* "All" + dynamic categories from the generator */}
-              {[{ name: ALL, slug: 'all', count: portfolioWorks.length }, ...portfolioCategories].map((cat) => {
+              {[{ name: ALL, slug: 'all', count: allWorks.length }, ...categories].map((cat) => {
                 const isActive = active === cat.name;
                 return (
                   <button
@@ -152,13 +132,11 @@ export function PortfolioGallery() {
                     }`}
                   >
                     <span>{cat.name}</span>
-                    <span
-                      className={`inline-flex items-center justify-center min-w-[22px] h-[18px] px-1.5 text-[10px] font-bold tabular-nums leading-none ${
-                        isActive
-                          ? 'bg-white/20 text-snow'
-                          : 'bg-graphite/[0.06] dark:bg-white/[0.08] text-muted group-hover:bg-accent/15 group-hover:text-accent'
-                      }`}
-                    >
+                    <span className={`inline-flex items-center justify-center min-w-[22px] h-[18px] px-1.5 text-[10px] font-bold tabular-nums leading-none ${
+                      isActive
+                        ? 'bg-white/20 text-snow'
+                        : 'bg-graphite/[0.06] dark:bg-white/[0.08] text-muted group-hover:bg-accent/15 group-hover:text-accent'
+                    }`}>
                       {cat.count}
                     </span>
                   </button>
@@ -167,14 +145,6 @@ export function PortfolioGallery() {
             </div>
           </div>
 
-          {/*
-            Editorial asymmetric grid.
-            - sm: 1 col,  aspect-[4/3] gives each card height (no spans)
-            - md: 2 cols, aspect-[4/3], last card stretched if odd count
-            - lg: 4 cols, fixed row height (320px), dense flow, computeLgLayout()
-                 controls per-card spans so trailing cells never stay grey
-            - Image wrapper: absolute inset-0 + overflow-hidden, <img> block w-full h-full object-cover
-          */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-graphite/10 dark:bg-white/[0.06] lg:auto-rows-[320px] lg:grid-flow-row-dense">
             {shown.map((work, idx) => {
               const span = layout[idx];
@@ -190,7 +160,6 @@ export function PortfolioGallery() {
                   className={`group relative overflow-hidden bg-snow dark:bg-graphite text-left aspect-[4/3] lg:aspect-auto ${mdClass} ${lgClass}`}
                   aria-label={`${work.title} — ${work.category}`}
                 >
-                  {/* Image wrapper */}
                   <div className="absolute inset-0 overflow-hidden bg-graphite/[0.07] dark:bg-white/5">
                     <img
                       src={work.coverImage}
@@ -199,22 +168,12 @@ export function PortfolioGallery() {
                       decoding="async"
                       className="block w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                     />
-                    <div
-                      aria-hidden="true"
-                      className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-graphite/90 via-graphite/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity"
-                    />
-                    <div
-                      aria-hidden="true"
-                      className="absolute inset-0 bg-graphite/0 group-hover:bg-graphite/30 transition-colors duration-500"
-                    />
+                    <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-graphite/90 via-graphite/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity" />
+                    <div aria-hidden="true" className="absolute inset-0 bg-graphite/0 group-hover:bg-graphite/30 transition-colors duration-500" />
                   </div>
-
-                  {/* Index marker */}
                   <span className="absolute top-4 left-4 z-10 text-led text-[10px] font-bold tracking-[0.3em] uppercase tabular-nums">
                     {String(idx + 1).padStart(2, '0')}
                   </span>
-
-                  {/* Multi-photo badge */}
                   {hasGallery && (
                     <span className="absolute top-4 right-4 z-10 inline-flex items-center gap-1 bg-graphite/70 backdrop-blur-sm text-snow text-[10px] font-bold tracking-wider px-2 py-1">
                       <svg aria-hidden="true" className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -223,27 +182,16 @@ export function PortfolioGallery() {
                       {work.images.length}
                     </span>
                   )}
-
-                  {/* Hero corner accent */}
                   {isHero && (
-                    <span
-                      aria-hidden="true"
-                      className="absolute bottom-4 right-4 w-5 h-5 border-b border-r border-led/40 z-10"
-                    />
+                    <span aria-hidden="true" className="absolute bottom-4 right-4 w-5 h-5 border-b border-r border-led/40 z-10" />
                   )}
-
-                  {/* Bottom label */}
                   <div className="absolute inset-x-0 bottom-0 z-10 p-5 sm:p-6 flex flex-col">
                     <span className="text-led/85 text-[10px] font-semibold uppercase tracking-[0.22em] mb-1.5">
                       {work.category}
                     </span>
                     <h3
                       className="font-bold text-snow leading-tight tracking-tight"
-                      style={{
-                        fontSize: isHero
-                          ? 'clamp(1.4rem, 2vw, 2rem)'
-                          : 'clamp(1rem, 1.4vw, 1.25rem)',
-                      }}
+                      style={{ fontSize: isHero ? 'clamp(1.4rem, 2vw, 2rem)' : 'clamp(1rem, 1.4vw, 1.25rem)' }}
                     >
                       {work.title}
                     </h3>
@@ -259,7 +207,6 @@ export function PortfolioGallery() {
             })}
           </div>
 
-          {/* Footer */}
           <div className="mt-10 flex flex-col items-center gap-3">
             {hasMore && (
               <button

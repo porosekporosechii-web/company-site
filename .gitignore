@@ -31,6 +31,17 @@ prisma/*.db
 prisma/*.db-journal
 prisma/*.sqlite
 prisma/*.sqlite-journal
+prisma/**/*.db
+prisma/**/*.db-journal
+prisma/**/*.sqlite
+prisma/**/*.sqlite-journal
+**/prisma/*.sqlite
+**/prisma/*.db
+prisma/prisma/db.sqlite
+prisma/prisma/db.sqlite-journal
+
+# ─── Uploaded files ──────────────────────────────────────────
+/public/uploads/
 
 # ─── Image-import workspace ──────────────────────────────────
 # Source photos waiting to be processed and the bucket where the

@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { db } from '@/lib/db';
 import nodemailer from 'nodemailer';
-
-const prisma = new PrismaClient();
 
 function createTransport() {
   return nodemailer.createTransport({
@@ -30,7 +28,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Телефон обязателен' }, { status: 400 });
   }
 
-  await prisma.submission.create({
+  await db.submission.create({
     data: {
       name: name?.trim() || null,
       phone: phone.trim(),

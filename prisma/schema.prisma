@@ -102,16 +102,20 @@ model ServiceDirection {
 // Contact form submissions
 // ──────────────────────────────────────────────────────────────────────
 model Submission {
-  id        Int      @id @default(autoincrement())
-  name      String?
-  phone     String
-  email     String?
-  message   String?
+  id          Int      @id @default(autoincrement())
+  name        String?
+  phone       String
+  email       String?
+  message     String?
   /// Which button / page triggered the request (e.g. "service-block", "contacts-page")
-  source    String?
-  createdAt DateTime @default(now())
+  source      String?
+  /// new | in_progress | done | spam
+  status      String   @default("new")
+  managerNote String?
+  createdAt   DateTime @default(now())
 
   @@index([createdAt])
+  @@index([status])
 }
 
 // ──────────────────────────────────────────────────────────────────────

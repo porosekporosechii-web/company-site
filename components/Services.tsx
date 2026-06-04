@@ -1,54 +1,17 @@
 import Link from 'next/link';
+import { db } from '@/lib/db';
 import { AnimateOnScroll } from './AnimateOnScroll';
 import { ArchitecturalGrid } from './ArchitecturalGrid';
 import { SectionHeader } from './SectionHeader';
 
-const services = [
-  {
-    id: 'pos',
-    tag: '01',
-    title: 'Оформление мест продаж',
-    description: 'Брендинг торговых пространств, витрины, навигация',
-    image: '/banner-pos.png',
-  },
-  {
-    id: 'retail',
-    tag: '02',
-    title: 'Торговое оборудование',
-    description: 'Витрины, стеллажи, ресепшн-стойки из металла',
-    image: '/banner-retail.png',
-  },
-  {
-    id: 'outdoor',
-    tag: '03',
-    title: 'Наружная реклама',
-    description: 'Вывески, объёмные буквы, крышные установки',
-    image: '/banner-outdoor.png',
-  },
-  {
-    id: 'led',
-    tag: '04',
-    title: 'Светодиодные экраны',
-    description: 'LED-панели для интерьера и наружной рекламы',
-    image: '/banner-led.png',
-  },
-  {
-    id: 'decor',
-    tag: '05',
-    title: 'Декорации',
-    description: 'Праздничное оформление, арт-объекты, инсталляции',
-    image: '/banner-decor.png',
-  },
-  {
-    id: 'textile',
-    tag: '06',
-    title: 'Текстильные лайтбоксы',
-    description: 'SEG-рамки, потолочные и витринные лайтбоксы',
-    image: '/banner-textile.png',
-  },
-];
+export async function Services() {
+  const services = await db.serviceDirection.findMany({
+    where: { published: true },
+    orderBy: { order: 'asc' },
+  });
 
-export function Services() {
+  if (services.length === 0) return null;
+
   const last = services.length - 1;
 
   return (
@@ -65,12 +28,6 @@ export function Services() {
           />
         </AnimateOnScroll>
 
-        {/*
-          Editorial asymmetric grid:
-            Row 1 (tall):   [Card 0 — 2/3 wide] [Card 1 — 1/3]
-            Row 2 (medium): [Card 2] [Card 3] [Card 4]
-            Row 3 (banner): [Card 5 — full width, short]
-        */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {services.map((s, idx) => {
             const isFeatured = idx === 0;
@@ -90,34 +47,31 @@ export function Services() {
             return (
               <Link
                 key={s.id}
-                href={`/services/${s.id}`}
+                href={`/services/${s.slug}`}
                 className={`group relative overflow-hidden block bg-graphite/10 dark:bg-[#1a1d23] ${sizeClass}`}
               >
-                {/* Photo */}
-                <img
-                  src={s.image}
-                  alt={s.title}
-                  className="absolute inset-0 block w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
+                {s.image && (
+                  <img
+                    src={s.image}
+                    alt={s.title}
+                    className="absolute inset-0 block w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                )}
 
-                {/* Gradient overlay — always dark so text is legible on photo */}
                 {isWide ? (
                   <div className="absolute inset-0 bg-gradient-to-r from-graphite/85 via-graphite/50 to-transparent" />
                 ) : (
                   <div className="absolute inset-0 bg-gradient-to-t from-graphite/92 via-graphite/30 to-graphite/5" />
                 )}
 
-                {/* Number tag */}
                 <span className="absolute top-5 left-5 text-led text-[10px] font-bold tracking-[0.3em] uppercase z-10">
                   {s.tag}
                 </span>
 
-                {/* Corner accent on featured */}
                 {isFeatured && (
                   <span className="absolute top-5 right-5 w-5 h-5 border-t border-r border-led/35 z-10" />
                 )}
 
-                {/* Content */}
                 {isWide ? (
                   <div className="absolute inset-0 flex items-center px-8 md:px-12 z-10">
                     <div>
@@ -164,7 +118,6 @@ export function Services() {
           })}
         </div>
 
-        {/* Bottom CTA */}
         <div className="mt-10 flex justify-center">
           <Link
             href="/services"
