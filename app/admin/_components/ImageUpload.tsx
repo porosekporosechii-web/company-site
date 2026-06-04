@@ -12,6 +12,7 @@ export function ImageUpload({ name, current, label = 'Изображение' }:
   const [preview, setPreview] = useState<string | null>(current ?? null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [stats, setStats] = useState<{ originalKb: number; savedKb: number } | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const hiddenRef = useRef<HTMLInputElement>(null);
 
@@ -26,9 +27,10 @@ export function ImageUpload({ name, current, label = 'Изображение' }:
         const json = await res.json();
         throw new Error(json.error ?? 'Upload failed');
       }
-      const { url } = await res.json() as { url: string };
-      setPreview(url);
-      if (hiddenRef.current) hiddenRef.current.value = url;
+      const json = await res.json() as { url: string; originalKb: number; savedKb: number };
+      setPreview(json.url);
+      setStats({ originalKb: json.originalKb, savedKb: json.savedKb });
+      if (hiddenRef.current) hiddenRef.current.value = json.url;
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Ошибка загрузки');
     } finally {
@@ -66,16 +68,23 @@ export function ImageUpload({ name, current, label = 'Изображение' }:
           type="file"
           accept="image/jpeg,image/png,image/webp,image/gif"
           className="hidden"
-          onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }}
+          onChange={(e) => { const f = e.target.files?.[0]; if (f) { setStats(null); handleFile(f); } }}
         />
         {uploading ? (
           <p className="text-xs text-muted">Загрузка…</p>
         ) : (
-          <p className="text-xs text-muted">Нажмите или перетащите файл (JPG, PNG, WebP — до 10 МБ)</p>
+          <><p className="text-xs text-muted">Нажмите или перетащите файл (JPG, PNG, WebP — до 30 МБ)</p>
+          <p className="text-[10px] text-muted/60 mt-0.5">Файл будет сжат и сохранён как WebP</p></>
+
         )}
       </div>
 
       {error && <p className="text-xs text-red-500">{error}</p>}
+      {stats && (
+        <p className="text-[11px] text-green-600 dark:text-green-400">
+          Сжато: {stats.originalKb} КБ → {stats.savedKb} КБ ({Math.round((1 - stats.savedKb / stats.originalKb) * 100)}% меньше)
+        </p>
+      )}
     </div>
   );
 }
