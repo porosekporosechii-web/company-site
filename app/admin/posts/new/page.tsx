@@ -4,6 +4,7 @@ import { db } from '@/lib/db';
 import { AdminShell, FormField, inputClass, textareaClass, SaveButton, BackLink } from '../../_components/AdminShell';
 import { ImageUpload } from '../../_components/ImageUpload';
 import { MarkdownEditor } from '../../_components/MarkdownEditor';
+import { TitleSlugFields } from '../../_components/TitleSlugFields';
 
 async function createPost(fd: FormData) {
   'use server';
@@ -32,13 +33,7 @@ export default function NewPostPage() {
     <AdminShell title="Новая статья">
       <BackLink href="/admin/posts" />
       <form action={createPost} className="max-w-3xl space-y-6">
-        <FormField label="Заголовок" htmlFor="title">
-          <input id="title" name="title" required className={inputClass} placeholder="Как выбрать вывеску для бизнеса" />
-        </FormField>
-
-        <FormField label="Slug (URL)" htmlFor="slug" hint="Только латиница, цифры, дефис">
-          <input id="slug" name="slug" required className={inputClass} placeholder="kak-vybrat-vyveski" />
-        </FormField>
+        <TitleSlugFields titleLabel="Заголовок" titlePlaceholder="Как выбрать вывеску для бизнеса" />
 
         <div className="grid grid-cols-2 gap-4">
           <FormField label="Категория" htmlFor="category">

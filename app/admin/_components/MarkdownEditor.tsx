@@ -33,15 +33,15 @@ export function MarkdownEditor({ name, defaultValue = '' }: Props) {
         ))}
       </div>
 
-      {tab === 'write' ? (
-        <textarea
-          name={name}
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          className="w-full bg-snow dark:bg-surface-dark px-4 py-3 text-sm text-graphite dark:text-snow font-mono resize-y min-h-[400px] focus:outline-none"
-          placeholder="# Заголовок&#10;&#10;Текст статьи в формате Markdown…"
-        />
-      ) : (
+      {/* textarea всегда в DOM, иначе при сохранении из вкладки «Превью» поле не попадёт в форму */}
+      <textarea
+        name={name}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        className={`w-full bg-snow dark:bg-surface-dark px-4 py-3 text-sm text-graphite dark:text-snow font-mono resize-y min-h-[400px] focus:outline-none ${tab === 'write' ? '' : 'hidden'}`}
+        placeholder="# Заголовок&#10;&#10;Текст статьи в формате Markdown…"
+      />
+      {tab === 'preview' && (
         <div className="px-6 py-4 min-h-[400px] prose prose-sm lg:prose-base dark:prose-invert prose-headings:font-bold prose-a:text-accent max-w-none bg-snow dark:bg-surface-dark">
           {value ? (
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{value}</ReactMarkdown>

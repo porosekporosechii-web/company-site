@@ -1,7 +1,8 @@
 import { revalidatePath } from 'next/cache';
 import { db } from '@/lib/db';
 import { formatDate } from '@/lib/format';
-import { AdminShell, AdminTable, AdminRow, AdminCell, StatusBadge, selectClass, inputClass } from '../_components/AdminShell';
+import { AdminShell, StatusBadge, inputClass } from '../_components/AdminShell';
+import { StatusSelect } from '../_components/StatusSelect';
 
 async function updateStatus(fd: FormData) {
   'use server';
@@ -73,18 +74,7 @@ export default async function ContactsPage() {
               </div>
 
               {/* Status selector */}
-              <form action={updateStatus} className="flex items-center gap-2">
-                <input type="hidden" name="id" value={s.id} />
-                <select name="status" defaultValue={s.status} className={`${selectClass} w-auto py-1 text-xs`}
-                  onChange={(e) => (e.target.form as HTMLFormElement).requestSubmit()}>
-                  {STATUS_OPTIONS.map((o) => (
-                    <option key={o.value} value={o.value}>{o.label}</option>
-                  ))}
-                </select>
-                <button type="submit" className="px-3 py-1 bg-graphite/10 dark:bg-white/10 text-xs font-semibold hover:bg-accent hover:text-snow transition-colors">
-                  ОК
-                </button>
-              </form>
+              <StatusSelect action={updateStatus} id={s.id} current={s.status} />
             </div>
 
             {/* Message */}

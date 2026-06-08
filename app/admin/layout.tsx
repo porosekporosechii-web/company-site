@@ -3,21 +3,12 @@ import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 import { authOptions } from '@/lib/auth';
 import { AdminSignOut } from './AdminSignOut';
+import { AdminNav } from './_components/AdminNav';
 
 export const metadata: Metadata = {
   title: 'Админ-панель',
   robots: { index: false, follow: false },
 };
-
-const navItems = [
-  { href: '/admin', label: 'Сводка', exact: true },
-  { href: '/admin/works', label: 'Портфолио' },
-  { href: '/admin/posts', label: 'Блог' },
-  { href: '/admin/partners', label: 'Партнёры' },
-  { href: '/admin/directions', label: 'Услуги' },
-  { href: '/admin/contacts', label: 'Контакты' },
-  { href: '/admin/texts', label: 'Тексты главной' },
-];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions);
@@ -47,20 +38,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       {/* Body — sidebar + content */}
       {session ? (
         <div className="max-w-[1400px] mx-auto px-6 py-6 grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-6">
-          <nav className="text-sm">
-            <ul className="space-y-1">
-              {navItems.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="block px-3 py-2 hover:bg-graphite/[0.05] dark:hover:bg-white/[0.05] transition-colors"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <AdminNav />
           <main>{children}</main>
         </div>
       ) : (

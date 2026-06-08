@@ -6,9 +6,10 @@ interface Props {
   name: string;
   current?: string | null;
   label?: string;
+  required?: boolean;
 }
 
-export function ImageUpload({ name, current, label = 'Изображение' }: Props) {
+export function ImageUpload({ name, current, label = 'Изображение', required = false }: Props) {
   const [preview, setPreview] = useState<string | null>(current ?? null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -40,9 +41,24 @@ export function ImageUpload({ name, current, label = 'Изображение' }:
 
   return (
     <div className="flex flex-col gap-2">
-      <span className="text-sm font-semibold text-graphite dark:text-snow">{label}</span>
+      <span className="text-sm font-semibold text-graphite dark:text-snow">
+        {label}{required && <span className="text-red-500 ml-0.5">*</span>}
+      </span>
 
-      <input type="hidden" name={name} ref={hiddenRef} defaultValue={current ?? ''} />
+      {/* При required — текстовый input (видимый для валидации браузера), визуально скрыт.
+          Хранит URL и блокирует отправку формы, пока фото не загружено. */}
+      <input
+        type={required ? 'text' : 'hidden'}
+        name={name}
+        ref={hiddenRef}
+        defaultValue={current ?? ''}
+        required={required}
+        tabIndex={required ? -1 : undefined}
+        aria-hidden={required ? true : undefined}
+        onInvalid={required ? (e) => (e.currentTarget as HTMLInputElement).setCustomValidity('Загрузите фото перед сохранением') : undefined}
+        onInput={required ? (e) => (e.currentTarget as HTMLInputElement).setCustomValidity('') : undefined}
+        className={required ? 'absolute opacity-0 h-px w-px pointer-events-none' : undefined}
+      />
 
       {preview && (
         <div className="relative w-48 h-32 border border-graphite/15 dark:border-white/15 overflow-hidden">
